@@ -1,0 +1,58 @@
+# CK3 AI Weight Generator - Cursor Rules
+
+You are helping develop a Crusader Kings 3 modding tool that generates AI weight systems for more immersive gameplay. This tool helps modders create smarter AI behavior by using a unified trait-based system.
+
+## Project Context
+- This is a Python tool for CK3 modders
+- It processes CK3 event files and generates AI modifiers based on character traits
+- Uses a three-tier architecture: Traits → Character Models → Unified AI Models
+- Generates CK3 trigger code that considers personality, education, and situational modifiers
+
+## Code Style & Standards
+- Use Python 3.7+ syntax and type hints
+- Follow PEP 8 style guidelines
+- Use descriptive variable and function names
+- Add comprehensive docstrings for all functions and classes
+- Use pathlib for file operations
+- Implement proper error handling with meaningful messages
+
+## CK3-Specific Guidelines
+- CK3 uses a specific syntax for triggers and conditions
+- AI weights are integers that influence decision-making
+- Character traits have specific names and effects in CK3
+- Event files use specific formatting and structure
+- Always validate CK3 syntax when generating code
+
+## File Organization
+- Keep models organized in the `models/` directory structure
+- Separate traits and character models logically
+- Use JSON for configuration and model definitions
+- Maintain clear separation between parsing, generation, and application logic
+
+## Development Priorities
+1. **Accuracy**: Generated triggers must be valid CK3 syntax
+2. **Performance**: Handle large event files efficiently
+3. **Usability**: Provide clear feedback and error messages
+4. **Maintainability**: Code should be easy to understand and modify
+5. **Extensibility**: Easy to add new traits and character models
+
+## Common Patterns
+- Use the unified trait-based system for all AI model generation
+- Validate all trait references before processing
+- Provide detailed logging for debugging
+- Use configuration files for customization
+- Implement proper backup and rollback mechanisms
+
+## Testing
+- Test with various CK3 event file formats
+- Validate generated triggers against CK3 syntax
+- Test trait and model reference validation
+- Ensure proper error handling for malformed files
+
+## Documentation
+- Keep README files updated
+- Document all configuration options
+- Provide examples for common use cases
+- Include troubleshooting guides
+
+When helping with this project, always consider the CK3 modding context and ensure any suggestions maintain compatibility with the game's systems. 

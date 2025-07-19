@@ -1,0 +1,33 @@
+{
+  "program_config": {
+    "events_directory": "events",
+    "models_directory": "models",
+    "models_file": "models/ai_models.json",
+    "file_extensions": [".txt"],
+    "ai_markers": {
+      "library_marker": "# AI-MODEL-LIB",
+      "start_marker": "# AI-START",
+      "end_marker": "# AI-END",
+      "model_pattern": "using:\\s*\\{([^}]+)\\}",
+      "comment_pattern": "#\\s*(.+)"
+    },
+    "processing": {
+      "preserve_comments": true,
+      "delete_markers": false,
+      "backup_files": true,
+      "backup_suffix": ".backup"
+    },
+    "output": {
+      "indent_level": 2,
+      "validate_triggers": true,
+      "show_summary": true,
+      "verbose_logging": false
+    },
+    "target": {
+      "events_directory": "events",
+      "mod_folder": "",
+      "should_use_mod_folder": false,
+      "is_parent": false
+    }
+  }
+} 

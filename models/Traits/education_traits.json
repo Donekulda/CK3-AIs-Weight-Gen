@@ -1,0 +1,256 @@
+{
+  "traits": {
+    "historian": {
+      "description": "Character has scholarly knowledge of history",
+      "weight": 25,
+      "ai_effects": {
+        "base_weight": 15,
+        "modifiers": [
+          {
+            "condition": "has_education_learning_trigger = yes",
+            "weight_adjustment": 10
+          },
+          {
+            "condition": "is_scholar = yes",
+            "weight_adjustment": 15
+          }
+        ]
+      },
+      "opposite_traits": ["illiterate", "ignorant"]
+    },
+    "scholar": {
+      "description": "Character is well-educated and learned",
+      "weight": 20,
+      "ai_effects": {
+        "base_weight": 10,
+        "modifiers": [
+          {
+            "condition": "has_education_learning_trigger = yes",
+            "weight_adjustment": 15
+          },
+          {
+            "condition": "is_court_chaplain = yes",
+            "weight_adjustment": 10
+          }
+        ]
+      },
+      "opposite_traits": ["illiterate", "ignorant"]
+    },
+    "diplomat": {
+      "description": "Character is skilled in diplomacy and negotiation",
+      "weight": 40,
+      "ai_effects": {
+        "base_weight": 20,
+        "modifiers": [
+          {
+            "condition": "has_education_diplomacy_trigger = yes",
+            "weight_adjustment": 15
+          },
+          {
+            "condition": "is_court_chancellor = yes",
+            "weight_adjustment": 10
+          }
+        ]
+      },
+      "opposite_traits": ["shy", "awkward"]
+    },
+    "zealous": {
+      "description": "Character is deeply religious and pious",
+      "weight": -10,
+      "ai_effects": {
+        "base_weight": -5,
+        "modifiers": [
+          {
+            "condition": "has_education_learning_trigger = yes",
+            "weight_adjustment": -10
+          },
+          {
+            "condition": "is_court_chaplain = yes",
+            "weight_adjustment": 5
+          }
+        ]
+      },
+      "opposite_traits": ["cynical", "skeptical"]
+    },
+    "cynical": {
+      "description": "Character is skeptical of religion and tradition",
+      "weight": 10,
+      "ai_effects": {
+        "base_weight": 5,
+        "modifiers": [
+          {
+            "condition": "has_education_learning_trigger = yes",
+            "weight_adjustment": 10
+          },
+          {
+            "condition": "is_court_chaplain = yes",
+            "weight_adjustment": -5
+          }
+        ]
+      },
+      "opposite_traits": ["zealous", "pious"]
+    },
+    "gregarious": {
+      "description": "Character is outgoing and sociable",
+      "weight": 25,
+      "ai_effects": {
+        "base_weight": 15,
+        "modifiers": [
+          {
+            "condition": "has_education_diplomacy_trigger = yes",
+            "weight_adjustment": 10
+          },
+          {
+            "condition": "is_court_chancellor = yes",
+            "weight_adjustment": 5
+          }
+        ]
+      },
+      "opposite_traits": ["shy", "awkward"]
+    },
+    "shy": {
+      "description": "Character is introverted and uncomfortable in social situations",
+      "weight": -20,
+      "ai_effects": {
+        "base_weight": -10,
+        "modifiers": [
+          {
+            "condition": "has_education_diplomacy_trigger = yes",
+            "weight_adjustment": -15
+          },
+          {
+            "condition": "is_court_chancellor = yes",
+            "weight_adjustment": -10
+          }
+        ]
+      },
+      "opposite_traits": ["gregarious", "diplomat"]
+    },
+    "awkward": {
+      "description": "Character is socially awkward and lacks social grace",
+      "weight": -30,
+      "ai_effects": {
+        "base_weight": -15,
+        "modifiers": [
+          {
+            "condition": "has_education_diplomacy_trigger = yes",
+            "weight_adjustment": -20
+          },
+          {
+            "condition": "is_court_chancellor = yes",
+            "weight_adjustment": -15
+          }
+        ]
+      },
+      "opposite_traits": ["gregarious", "diplomat", "charismatic"]
+    },
+    "ignorant": {
+      "description": "Character lacks education and knowledge",
+      "weight": -40,
+      "ai_effects": {
+        "base_weight": -20,
+        "modifiers": [
+          {
+            "condition": "has_education_learning_trigger = yes",
+            "weight_adjustment": -25
+          },
+          {
+            "condition": "is_court_chaplain = yes",
+            "weight_adjustment": -20
+          }
+        ]
+      },
+      "opposite_traits": ["historian", "scholar", "learned"]
+    },
+    "illiterate": {
+      "description": "Character cannot read or write",
+      "weight": -50,
+      "ai_effects": {
+        "base_weight": -25,
+        "modifiers": [
+          {
+            "condition": "has_education_learning_trigger = yes",
+            "weight_adjustment": -30
+          },
+          {
+            "condition": "is_court_chaplain = yes",
+            "weight_adjustment": -25
+          }
+        ]
+      },
+      "opposite_traits": ["historian", "scholar", "learned"]
+    },
+    "humble": {
+      "description": "Character is modest and unassuming",
+      "weight": -25,
+      "ai_effects": {
+        "base_weight": -15,
+        "modifiers": [
+          {
+            "condition": "is_ruler = yes",
+            "weight_adjustment": -10
+          },
+          {
+            "condition": "has_claim = yes",
+            "weight_adjustment": -15
+          }
+        ]
+      },
+      "opposite_traits": ["ambitious", "proud"]
+    },
+    "berserker": {
+      "description": "Character is fierce and battle-crazed",
+      "weight": 50,
+      "ai_effects": {
+        "base_weight": 25,
+        "modifiers": [
+          {
+            "condition": "is_commander = yes",
+            "weight_adjustment": 20
+          },
+          {
+            "condition": "at_war = yes",
+            "weight_adjustment": 15
+          }
+        ]
+      },
+      "opposite_traits": ["craven", "calm"]
+    },
+    "reckless": {
+      "description": "Character acts without considering consequences",
+      "weight": 35,
+      "ai_effects": {
+        "base_weight": 20,
+        "modifiers": [
+          {
+            "condition": "is_commander = yes",
+            "weight_adjustment": 15
+          },
+          {
+            "condition": "at_war = yes",
+            "weight_adjustment": 10
+          }
+        ]
+      },
+      "opposite_traits": ["cautious", "patient"]
+    },
+    "patient": {
+      "description": "Character is willing to wait and plan carefully",
+      "weight": -30,
+      "ai_effects": {
+        "base_weight": -15,
+        "modifiers": [
+          {
+            "condition": "is_commander = yes",
+            "weight_adjustment": -10
+          },
+          {
+            "condition": "at_war = yes",
+            "weight_adjustment": -5
+          }
+        ]
+      },
+      "opposite_traits": ["reckless", "wrathful"]
+    }
+  }
+} 

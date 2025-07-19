@@ -1,0 +1,207 @@
+repos:
+  # Pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-toml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+
+  # Python code formatting
+  - repo: https://github.com/psf/black
+    rev: 22.12.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+
+  # Linting
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=88, --extend-ignore=E203,W503]
+
+  # Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.991
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: [--ignore-missing-imports]
+
+  # Security checks
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        args: [-r, ., -f, json, -o, bandit-report.json]
+        exclude: ^tests/
+
+  # CK3-specific checks
+  - repo: local
+    hooks:
+      - id: validate-json-schemas
+        name: Validate JSON Schemas
+        entry: python -c "
+import json
+import glob
+import sys
+from pathlib import Path
+
+def validate_json_files():
+    schema_files = glob.glob('schemas/*.json')
+    model_files = glob.glob('models/**/*.json')
+    config_files = glob.glob('config*.json')
+    
+    all_files = schema_files + model_files + config_files
+    
+    for file_path in all_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                json.load(f)
+            print(f'✓ {file_path} is valid JSON')
+        except json.JSONDecodeError as e:
+            print(f'✗ {file_path} has JSON errors: {e}')
+            sys.exit(1)
+        except Exception as e:
+            print(f'✗ Error reading {file_path}: {e}')
+            sys.exit(1)
+    
+    print('All JSON files are valid!')
+
+if __name__ == '__main__':
+    validate_json_files()
+"
+        language: python
+        files: \.(json)$
+        pass_filenames: false
+
+      - id: check-ck3-syntax
+        name: Check CK3 Syntax
+        entry: python -c "
+import re
+import glob
+from pathlib import Path
+
+def check_ck3_syntax():
+    event_files = glob.glob('events/**/*.txt')
+    issues = []
+    
+    # Common CK3 syntax patterns
+    ck3_patterns = [
+        r'\\b(if|else|limit|modifier|weight|factor|add|remove|set|change|give|take)\\b',
+        r'\\b(yes|no|true|false)\\b',
+        r'\\b(is_|has_|can_|should_|will_)\\w+\\b',
+        r'\\b(character|province|title|culture|religion|government|trait)\\b',
+        r'\\b(scope:|root:|prev:|this:|from:|owner:|holder:|ruler:|liege:|vassal:)\\b'
+    ]
+    
+    for file_path in event_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                
+            # Check for basic CK3 syntax patterns
+            for pattern in ck3_patterns:
+                matches = re.findall(pattern, content, re.IGNORECASE)
+                if matches:
+                    print(f'Found CK3 syntax in {file_path}: {len(matches)} matches')
+                    
+        except Exception as e:
+            print(f'Error reading {file_path}: {e}')
+            issues.append(f'Error reading {file_path}: {e}')
+    
+    if issues:
+        print('CK3 syntax check completed with issues:')
+        for issue in issues:
+            print(f'  - {issue}')
+    else:
+        print('CK3 syntax check completed successfully!')
+
+if __name__ == '__main__':
+    check_ck3_syntax()
+"
+        language: python
+        files: events/.*\.(txt)$
+        pass_filenames: false
+
+      - id: validate-model-references
+        name: Validate Model References
+        entry: python -c "
+import json
+import glob
+from pathlib import Path
+
+def validate_model_references():
+    # Load all available traits and models
+    available_traits = set()
+    available_models = set()
+    
+    # Load traits
+    trait_files = glob.glob('models/Traits/*.json')
+    for file_path in trait_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                if 'traits' in data:
+                    available_traits.update(data['traits'].keys())
+        except Exception as e:
+            print(f'Error loading traits from {file_path}: {e}')
+    
+    # Load character models
+    model_files = glob.glob('models/Characters/*.json')
+    for file_path in model_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                if 'models' in data:
+                    available_models.update(data['models'].keys())
+        except Exception as e:
+            print(f'Error loading models from {file_path}: {e}')
+    
+    print(f'Found {len(available_traits)} traits and {len(available_models)} character models')
+    
+    # Validate references in character models
+    for file_path in model_files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+            if 'models' in data:
+                for model_name, model_data in data['models'].items():
+                    if 'traits' in model_data:
+                        for trait_list in model_data['traits'].values():
+                            for trait in trait_list:
+                                if trait not in available_traits:
+                                    print(f'Warning: Trait "{trait}" referenced in model "{model_name}" but not found')
+                                    
+        except Exception as e:
+            print(f'Error validating {file_path}: {e}')
+    
+    print('Model reference validation completed!')
+
+if __name__ == '__main__':
+    validate_model_references()
+"
+        language: python
+        files: models/.*\.(json)$
+        pass_filenames: false 

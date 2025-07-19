@@ -1,0 +1,172 @@
+{
+  "models": {
+    "historical": {
+      "description": "Historical character behavior model - focuses on scholarly and diplomatic pursuits",
+      "base_weight": 50,
+      "traits": {
+        "positive": ["historian", "scholar", "diplomat", "gregarious"],
+        "negative": ["zealous", "shy", "reckless"]
+      },
+      "opposite_traits": ["illiterate", "ignorant", "awkward", "cynical"],
+      "modifiers": [
+        {
+          "condition_identifier": "HAS_EDUCATION_LEARNING",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 15
+        },
+        {
+          "condition_identifier": "HAS_EDUCATION_DIPLOMACY",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 10
+        }
+      ]
+    },
+    "ambitious": {
+      "description": "Ambitious character behavior model - driven by power and advancement",
+      "base_weight": 75,
+      "traits": {
+        "positive": ["ambitious", "greedy", "proud"],
+        "negative": ["content", "humble", "patient"]
+      },
+      "opposite_traits": ["content", "humble", "generous"],
+      "modifiers": [
+        {
+          "condition_identifier": "IS_RULER",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 15
+        },
+        {
+          "condition_identifier": "HAS_CLAIM_ON",
+          "condition_values": {"title_scope": "ROOT"},
+          "weight_adjustment": 20
+        }
+      ]
+    },
+    "cautious": {
+      "description": "Cautious character behavior model - careful and risk-averse",
+      "base_weight": 60,
+      "traits": {
+        "positive": ["craven", "paranoid", "patient"],
+        "negative": ["brave", "reckless", "trusting"]
+      },
+      "opposite_traits": ["brave", "reckless", "trusting"],
+      "modifiers": [
+        {
+          "condition_identifier": "IS_AT_WAR",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": -10
+        },
+        {
+          "condition_identifier": "HAS_ENEMY",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 15
+        }
+      ]
+    },
+    "aggressive": {
+      "description": "Aggressive character behavior model - warlike and confrontational",
+      "base_weight": 80,
+      "traits": {
+        "positive": ["brave", "berserker", "wrathful", "reckless"],
+        "negative": ["craven", "content", "patient"]
+      },
+      "opposite_traits": ["craven", "content", "calm"],
+      "modifiers": [
+        {
+          "condition_identifier": "IS_COMMANDER",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 20
+        },
+        {
+          "condition_identifier": "IS_AT_WAR",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 15
+        }
+      ]
+    },
+    "diplomatic": {
+      "description": "Diplomatic character behavior model - skilled in negotiation and relationships",
+      "base_weight": 70,
+      "traits": {
+        "positive": ["diplomat", "gregarious", "trusting", "generous"],
+        "negative": ["shy", "wrathful", "paranoid"]
+      },
+      "opposite_traits": ["shy", "wrathful", "awkward"],
+      "modifiers": [
+        {
+          "condition_identifier": "IS_COURT_CHANCELLOR",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 15
+        },
+        {
+          "condition_identifier": "HAS_EDUCATION_DIPLOMACY",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 10
+        }
+      ]
+    },
+    "scholarly": {
+      "description": "Scholarly character behavior model - focused on learning and knowledge",
+      "base_weight": 65,
+      "traits": {
+        "positive": ["historian", "scholar", "patient", "cynical"],
+        "negative": ["reckless", "zealous", "greedy"]
+      },
+      "opposite_traits": ["illiterate", "ignorant", "reckless"],
+      "modifiers": [
+        {
+          "condition_identifier": "HAS_EDUCATION_LEARNING",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 20
+        },
+        {
+          "condition_identifier": "IS_COURT_CHAPLAIN",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 10
+        }
+      ]
+    },
+    "merchant": {
+      "description": "Merchant character behavior model - focused on trade and wealth",
+      "base_weight": 55,
+      "traits": {
+        "positive": ["greedy", "gregarious", "patient"],
+        "negative": ["generous", "shy", "reckless"]
+      },
+      "opposite_traits": ["generous", "content", "humble"],
+      "modifiers": [
+        {
+          "condition_identifier": "HAS_TRAIT",
+          "condition_values": {"trait_name": "merchant"},
+          "weight_adjustment": 20
+        },
+        {
+          "condition_identifier": "WEALTH",
+          "condition_values": {"operator": "<", "wealth_threshold": "100"},
+          "weight_adjustment": 15
+        }
+      ]
+    },
+    "religious": {
+      "description": "Religious character behavior model - pious and faith-driven",
+      "base_weight": 45,
+      "traits": {
+        "positive": ["zealous", "humble", "patient"],
+        "negative": ["cynical", "greedy", "wrathful"]
+      },
+      "opposite_traits": ["cynical", "skeptical", "greedy"],
+      "modifiers": [
+        {
+          "condition_identifier": "IS_COURT_CHAPLAIN",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": 15
+        },
+        {
+          "condition_identifier": "HAS_EDUCATION_LEARNING",
+          "condition_values": {"yes": "yes"},
+          "weight_adjustment": -5
+        }
+      ]
+    }
+  }
+} 

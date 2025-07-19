@@ -1,0 +1,392 @@
+{
+  "conditions": {
+    "character_status": {
+      "description": "Character status and position conditions",
+      "conditions": {
+        "IS_RULER": {
+          "description": "Is the scope character a ruler (holds any title)?",
+          "syntax": "is_ruler = yes/no",
+          "input_values": {
+            "yes": "Character is a ruler",
+            "no": "Character is not a ruler"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "boolean"
+        },
+        "IS_HEIR": {
+          "description": "Is the character an heir to a title?",
+          "syntax": "is_heir = yes/no",
+          "input_values": {
+            "yes": "Character is an heir",
+            "no": "Character is not an heir"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "boolean"
+        },
+        "IS_COMMANDER": {
+          "description": "Is the character a commander?",
+          "syntax": "is_commander = yes/no",
+          "input_values": {
+            "yes": "Character is a commander",
+            "no": "Character is not a commander"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "boolean"
+        },
+        "IS_AT_WAR": {
+          "description": "Is the character at war?",
+          "syntax": "is_at_war = yes/no",
+          "input_values": {
+            "yes": "Character is at war",
+            "no": "Character is not at war"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "boolean"
+        }
+      }
+    },
+    "character_traits": {
+      "description": "Character trait conditions",
+      "conditions": {
+        "HAS_TRAIT": {
+          "description": "Does the character have this trait?",
+          "syntax": "has_trait = $trait_name",
+          "input_values": {
+            "trait_name": "Name of the trait to check"
+          },
+          "custom_triggers": {
+            "ambitious": "has_trait = ambitious",
+            "content": "has_trait = content",
+            "brave": "has_trait = brave",
+            "craven": "has_trait = craven",
+            "greedy": "has_trait = greedy",
+            "generous": "has_trait = generous",
+            "wrathful": "has_trait = wrathful",
+            "calm": "has_trait = calm",
+            "paranoid": "has_trait = paranoid",
+            "trusting": "has_trait = trusting",
+            "proud": "has_trait = proud",
+            "humble": "has_trait = humble",
+            "patient": "has_trait = patient",
+            "reckless": "has_trait = reckless",
+            "zealous": "has_trait = zealous",
+            "cynical": "has_trait = cynical",
+            "scholar": "has_trait = scholar",
+            "diplomat": "has_trait = diplomat",
+            "merchant": "has_trait = merchant",
+            "berserker": "has_trait = berserker"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "trait"
+        }
+      }
+    },
+    "character_resources": {
+      "description": "Character resource and wealth conditions",
+      "conditions": {
+        "WEALTH": {
+          "description": "Character's wealth amount",
+          "syntax": "wealth $operator $wealth_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "wealth_threshold": "Numeric threshold value"
+          },
+          "custom_triggers": {
+            "poor": "wealth < 100",
+            "modest": "wealth < 500",
+            "wealthy": "wealth > 1000",
+            "rich": "wealth > 5000"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "comparison"
+        },
+        "PRESTIGE": {
+          "description": "Character's prestige amount",
+          "syntax": "prestige $operator $prestige_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "prestige_threshold": "Numeric threshold value"
+          },
+          "custom_triggers": {
+            "low_prestige": "prestige < 100",
+            "modest_prestige": "prestige < 1000",
+            "high_prestige": "prestige > 1000",
+            "legendary_prestige": "prestige > 5000"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "comparison"
+        },
+        "PIETY": {
+          "description": "Character's piety amount",
+          "syntax": "piety $operator $piety_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "piety_threshold": "Numeric threshold value"
+          },
+          "custom_triggers": {
+            "low_piety": "piety < 100",
+            "modest_piety": "piety < 500",
+            "high_piety": "piety > 1000",
+            "saintly_piety": "piety > 5000"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "comparison"
+        }
+      }
+    },
+    "character_skills": {
+      "description": "Character skill conditions",
+      "conditions": {
+        "DIPLOMACY": {
+          "description": "Character's diplomacy skill level",
+          "syntax": "diplomacy $operator $skill_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "skill_threshold": "Numeric skill level"
+          },
+          "custom_triggers": {
+            "low_diplomacy": "diplomacy < 5",
+            "modest_diplomacy": "diplomacy < 10",
+            "high_diplomacy": "diplomacy > 10",
+            "master_diplomacy": "diplomacy > 15"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "comparison"
+        },
+        "MARTIAL": {
+          "description": "Character's martial skill level",
+          "syntax": "martial $operator $skill_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "skill_threshold": "Numeric skill level"
+          },
+          "custom_triggers": {
+            "low_martial": "martial < 5",
+            "modest_martial": "martial < 10",
+            "high_martial": "martial > 10",
+            "master_martial": "martial > 15"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "comparison"
+        },
+        "STEWARDSHIP": {
+          "description": "Character's stewardship skill level",
+          "syntax": "stewardship $operator $skill_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "skill_threshold": "Numeric skill level"
+          },
+          "custom_triggers": {
+            "low_stewardship": "stewardship < 5",
+            "modest_stewardship": "stewardship < 10",
+            "high_stewardship": "stewardship > 10",
+            "master_stewardship": "stewardship > 15"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "comparison"
+        },
+        "INTRIGUE": {
+          "description": "Character's intrigue skill level",
+          "syntax": "intrigue $operator $skill_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "skill_threshold": "Numeric skill level"
+          },
+          "custom_triggers": {
+            "low_intrigue": "intrigue < 5",
+            "modest_intrigue": "intrigue < 10",
+            "high_intrigue": "intrigue > 10",
+            "master_intrigue": "intrigue > 15"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "comparison"
+        },
+        "LEARNING": {
+          "description": "Character's learning skill level",
+          "syntax": "learning $operator $skill_threshold",
+          "input_values": {
+            "operator": "<, <=, =, !=, >, >=",
+            "skill_threshold": "Numeric skill level"
+          },
+          "custom_triggers": {
+            "low_learning": "learning < 5",
+            "modest_learning": "learning < 10",
+            "high_learning": "learning > 10",
+            "master_learning": "learning > 15"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "comparison"
+        }
+      }
+    },
+    "character_claims": {
+      "description": "Character claim conditions",
+      "conditions": {
+        "HAS_CLAIM_ON": {
+          "description": "Does the character have a claim on a title?",
+          "syntax": "has_claim_on = { title = $title_scope }",
+          "input_values": {
+            "title_scope": "Title scope (ROOT, scope:target_title, etc.)"
+          },
+          "custom_triggers": {
+            "has_claim_on_root": "has_claim_on = { title = ROOT }",
+            "has_claim_on_primary": "has_claim_on = { title = scope:primary_title }",
+            "has_claim_on_liege": "has_claim_on = { title = scope:liege_title }"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "claim"
+        }
+      }
+    },
+    "character_relationships": {
+      "description": "Character relationship conditions",
+      "conditions": {
+        "HAS_RIVAL": {
+          "description": "Does the character have a rival?",
+          "syntax": "has_rival = yes/no",
+          "input_values": {
+            "yes": "Character has a rival",
+            "no": "Character has no rival"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "boolean"
+        },
+        "HAS_ENEMY": {
+          "description": "Does the character have an enemy?",
+          "syntax": "has_enemy = yes/no",
+          "input_values": {
+            "yes": "Character has an enemy",
+            "no": "Character has no enemy"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "high",
+          "condition_type": "boolean"
+        }
+      }
+    },
+    "character_court": {
+      "description": "Character court position conditions",
+      "conditions": {
+        "IS_COURT_CHANCELLOR": {
+          "description": "Is the character a court chancellor?",
+          "syntax": "is_court_chancellor = yes/no",
+          "input_values": {
+            "yes": "Character is a court chancellor",
+            "no": "Character is not a court chancellor"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "low",
+          "condition_type": "boolean"
+        },
+        "IS_COURT_CHAPLAIN": {
+          "description": "Is the character a court chaplain?",
+          "syntax": "is_court_chaplain = yes/no",
+          "input_values": {
+            "yes": "Character is a court chaplain",
+            "no": "Character is not a court chaplain"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "low",
+          "condition_type": "boolean"
+        },
+        "IS_COURT_SPYMASTER": {
+          "description": "Is the character a court spymaster?",
+          "syntax": "is_court_spymaster = yes/no",
+          "input_values": {
+            "yes": "Character is a court spymaster",
+            "no": "Character is not a court spymaster"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "low",
+          "condition_type": "boolean"
+        },
+        "IS_COURT_PHYSICIAN": {
+          "description": "Is the character a court physician?",
+          "syntax": "is_court_physician = yes/no",
+          "input_values": {
+            "yes": "Character is a court physician",
+            "no": "Character is not a court physician"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "low",
+          "condition_type": "boolean"
+        }
+      }
+    },
+    "character_education": {
+      "description": "Character education conditions",
+      "conditions": {
+        "HAS_EDUCATION_LEARNING": {
+          "description": "Does the character have learning education?",
+          "syntax": "has_education_learning_trigger = yes/no",
+          "input_values": {
+            "yes": "Character has learning education",
+            "no": "Character does not have learning education"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "boolean"
+        },
+        "HAS_EDUCATION_DIPLOMACY": {
+          "description": "Does the character have diplomacy education?",
+          "syntax": "has_education_diplomacy_trigger = yes/no",
+          "input_values": {
+            "yes": "Character has diplomacy education",
+            "no": "Character does not have diplomacy education"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "boolean"
+        },
+        "HAS_EDUCATION_MARTIAL": {
+          "description": "Does the character have martial education?",
+          "syntax": "has_education_martial_trigger = yes/no",
+          "input_values": {
+            "yes": "Character has martial education",
+            "no": "Character does not have martial education"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "boolean"
+        },
+        "HAS_EDUCATION_STEWARDSHIP": {
+          "description": "Does the character have stewardship education?",
+          "syntax": "has_education_stewardship_trigger = yes/no",
+          "input_values": {
+            "yes": "Character has stewardship education",
+            "no": "Character does not have stewardship education"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "boolean"
+        },
+        "HAS_EDUCATION_INTRIGUE": {
+          "description": "Does the character have intrigue education?",
+          "syntax": "has_education_intrigue_trigger = yes/no",
+          "input_values": {
+            "yes": "Character has intrigue education",
+            "no": "Character does not have intrigue education"
+          },
+          "supported_scopes": ["character"],
+          "ai_relevance": "medium",
+          "condition_type": "boolean"
+        }
+      }
+    }
+  }
+} 

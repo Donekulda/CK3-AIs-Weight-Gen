@@ -1,0 +1,416 @@
+namespace = test_magic_holy
+
+### LIBS ###
+#################
+## AI-MODEL-LIB 
+#################
+
+test_magic_holy.0001 = { # Siblings become your rivals
+	type = character_event
+	title = test_magic_holy.0001.t
+	theme = raid
+	override_background = { reference = mpo_steppe_evening }
+	override_effect_2d = {
+		reference = rain	
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:dead_parent
+				}
+				desc = chaotic_kurultai_intro_1
+			}
+			desc = chaotic_kurultai_intro_2
+		}
+		desc = test_magic_holy.0001.desc
+	}
+	
+	left_portrait = {
+		character = scope:sibling_rival_1
+		animation = hunting_knife_start
+	}
+	right_portrait = {
+		character = scope:sibling_rival_2
+		animation = spymaster
+		camera = camera_event_left
+	}
+	
+	trigger = {
+		any_sibling = {
+			is_physically_able_ai = yes
+			age >= 12
+		}
+	}
+	
+	immediate = {
+		
+	}
+	
+	option = {
+		name = test_magic_holy.0001.a
+
+		ai_chance = {
+            # AI-START
+            # AI-START		ai_chance = {
+		base = 500
+		modifier = {
+		add = 10
+		trigger = {
+		is_ruler = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_claim_on = { title = ROOT }
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = ambitious
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_ruler = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_claim = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_heir = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = greedy
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_gold < 100
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_merchant = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = proud
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_ruler = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_prestige > 1000
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = content }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = humble }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = patient }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = content }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = humble }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = generous }
+		}
+		}
+		}
+            # AI-STOP            # AI-STOP            # AI-STOP            # AI-STOP
+		}
+	}
+	
+	option = {
+		name = test_magic_holy.0001.b
+
+		ai_chance = {
+            # AI-START
+            # AI-START		ai_chance = {
+		base = -135
+		modifier = {
+		add = 10
+		trigger = {
+		is_at_war = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_enemy = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = craven
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_commander = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		at_war = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = paranoid
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_spouse = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_courtier = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = patient
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_commander = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		at_war = yes
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = brave }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = reckless }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = trusting }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = brave }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = reckless }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = trusting }
+		}
+		}
+		}
+            # AI-STOP            # AI-STOP            # AI-STOP            # AI-STOP
+		}
+	}
+	
+	option = {
+		name = test_magic_holy.0001.c
+
+		ai_chance = {
+            # AI-START
+            # AI-START		ai_chance = {
+		base = 115
+		modifier = {
+		add = 10
+		trigger = {
+		is_court_chancellor = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_diplomacy_trigger = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = diplomat
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_diplomacy_trigger = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_court_chancellor = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = gregarious
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_diplomacy_trigger = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_court_chancellor = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = trusting
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_spouse = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_courtier = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = generous
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_gold > 500
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_merchant = yes
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = shy }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = wrathful }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = paranoid }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = shy }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = wrathful }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = awkward }
+		}
+		}
+		}
+            # AI-STOP            # AI-STOP            # AI-STOP            # AI-STOP
+		}
+	}
+}
