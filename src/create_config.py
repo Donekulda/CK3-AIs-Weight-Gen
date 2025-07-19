@@ -8,7 +8,8 @@ configuration file to config.json, which they can then modify with their custom 
 
 import sys
 from pathlib import Path
-from config_manager import ConfigManager
+
+from .config_manager import ConfigManager
 
 
 def main():

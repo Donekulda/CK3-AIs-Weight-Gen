@@ -5,8 +5,8 @@ This script demonstrates how to use the new trait-based AI model system
 for generating CK3 triggers and understanding character behavior.
 """
 
-from ai_model_manager import AIModelManager, TraitManager
-from model_organizer import ModelOrganizer
+from src.ai_model_manager import AIModelManager, TraitManager
+from src.model_organizer import ModelOrganizer
 
 
 def demonstrate_trait_system():

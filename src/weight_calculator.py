@@ -8,8 +8,9 @@ showing the breakdown of base weights, trait contributions, and modifiers.
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional, Any
-from ai_model_manager import AIModelManager, AIModel, CharacterModel, TraitManager
+from typing import Any, Dict, List, Optional
+
+from .ai_model_manager import AIModel, AIModelManager, CharacterModel, TraitManager
 
 
 class WeightCalculator:

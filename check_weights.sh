@@ -12,8 +12,11 @@ if [ -d "venv" ]; then
     source venv/bin/activate
 fi
 
+# Add src directory to Python path
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
 # Run the weight check
-python quick_weight_check.py
+python src/quick_weight_check.py
 
 echo ""
 echo "✅ Weight check completed!" 

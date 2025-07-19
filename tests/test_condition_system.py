@@ -6,8 +6,8 @@ This script demonstrates how the ConditionManager can be used to
 generate optimized CK3 triggers with proper syntax validation.
 """
 
-from condition_manager import ConditionManager
-from ck3_trigger_generator import CK3TriggerGenerator
+from src.ck3_trigger_generator import CK3TriggerGenerator
+from src.condition_manager import ConditionManager
 
 
 def test_condition_manager():
@@ -112,7 +112,7 @@ def test_condition_categories():
             for condition_name, condition_def in list(category.conditions.items())[:3]:
                 print(f"    - {condition_name}: {condition_def.description}")
                 print(f"      Syntax: {condition_def.syntax}")
-                print(f"      Type: {condition_def.condition_type.value}")
+                print(f"      Type: {condition_def.condition_type}")
                 print(f"      AI Relevance: {condition_def.ai_relevance}")
 
 

@@ -5,10 +5,11 @@ This module contains classes for generating CK3 trigger code based on
 unified AI models that combine character models and traits.
 """
 
-from typing import List, Dict, Optional
 from dataclasses import dataclass
-from ai_model_manager import AIModel, AIModifier
-from condition_manager import ConditionManager
+from typing import Dict, List, Optional
+
+from .ai_model_manager import AIModel, AIModifier
+from .condition_manager import ConditionManager
 
 
 @dataclass

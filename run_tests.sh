@@ -4,7 +4,7 @@
 # This script sets up the Python virtual environment, installs dependencies,
 # and runs the test suite.
 
-set -e  # Exit on any error
+# Don't exit on error, let us handle it manually
 
 echo "CK3 AI Weight Generator - Test Runner Script"
 echo "==========================================="
@@ -66,6 +66,9 @@ echo ""
 echo "Environment setup complete!"
 echo "Running test suite..."
 echo ""
+
+# Add src directory to Python path
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
 
 # Run all test files
 total_tests=0

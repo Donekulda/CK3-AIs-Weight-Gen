@@ -6,7 +6,7 @@ This script demonstrates how to use the new integer weight functions
 from the WeightCalculator class.
 """
 
-from weight_calculator import WeightCalculator
+from src.weight_calculator import WeightCalculator
 
 
 def main():

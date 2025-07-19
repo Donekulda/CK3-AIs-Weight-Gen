@@ -6,8 +6,8 @@ This script demonstrates how condition identifiers can be used to generate
 CK3 triggers with custom values and dollar symbol variables.
 """
 
-from condition_manager import ConditionManager
-from ck3_trigger_generator import CK3TriggerGenerator
+from src.ck3_trigger_generator import CK3TriggerGenerator
+from src.condition_manager import ConditionManager
 
 
 def test_condition_identifiers():

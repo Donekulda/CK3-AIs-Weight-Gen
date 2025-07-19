@@ -58,6 +58,9 @@ fi
 # Make main.py executable
 chmod +x main.py
 
+# Add src directory to Python path
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
 echo ""
 echo "Environment setup complete!"
 echo "Running CK3 AI Weight Generator..."

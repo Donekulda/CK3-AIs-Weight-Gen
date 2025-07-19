@@ -8,7 +8,8 @@ It provides functions to validate, list, and manage traits and character models.
 import json
 from pathlib import Path
 from typing import Dict, List, Set
-from ai_model_manager import AIModelManager, TraitManager
+
+from .ai_model_manager import AIModelManager, TraitManager
 
 
 class ModelOrganizer:

@@ -8,6 +8,9 @@ A Python tool for automatically generating CK3 AI modifiers based on a unified t
 
 - **Unified Trait-Based System**: Combines individual traits and character models into cohesive AI models
 - **Automatic Event Parsing**: Scans CK3 event files for AI model references
+- **CK3 Mod Folder Support**: Works with Steam Workshop and Paradox mods
+- **Mod Discovery & Management**: Interactive mod discovery and configuration
+- **Descriptor.mod Integration**: Automatic configuration from mod descriptor files
 - **Trait Management**: Loads and validates trait definitions with weights and effects
 - **Character Model System**: Defines character archetypes that reference traits
 - **Trigger Generation**: Converts unified AI models into CK3 trigger code
@@ -20,26 +23,32 @@ A Python tool for automatically generating CK3 AI modifiers based on a unified t
 
 - Python 3.7 or higher
 - Linux/macOS/Windows with bash support
+- CK3 installed (for mod folder access)
 
 ## Installation and Usage
 
 ### Menu System
 
-The CK3 AI Weight Generator includes an interactive menu system (`menu.sh`) that provides:
+The CK3 AI Weight Generator includes an enhanced interactive menu system (`menu.sh`) that provides:
 
 #### Main Menu Options
 1. **Run CK3 AI Weight Generator** - Execute the main program with configuration status
-2. **Run Test Suite** - Execute all tests with detailed results
-3. **Setup Environment Only** - Install dependencies without running the program
-4. **Configuration Management** - Manage configuration files and settings
-5. **Show Configuration Status** - Display current configuration information
-6. **Exit** - Close the menu
+2. **Run CK3 Parser** - Execute the new unified parser (extensible for future file types)
+3. **CK3 Mod Manager** - Discover and manage CK3 mods interactively
+4. **Setup Configuration** - Interactive configuration setup with mod support
+5. **Run Test Suite** - Execute all tests with detailed results
+6. **Setup Environment Only** - Install dependencies without running the program
+7. **Configuration Management** - Manage configuration files and settings
+8. **Show Configuration Status** - Display current configuration information
+9. **Exit** - Close the menu
 
 #### Configuration Management Submenu
 - **Create User Configuration** - Copy default config to user config
+- **Setup from Mod Directory** - Parse descriptor.mod and auto-configure
 - **Show Current Configuration Status** - Display detailed config information
 - **Edit Configuration File** - Open config.json in your preferred editor
 - **Reset to Default Configuration** - Remove user config and use defaults
+- **Test Configuration System** - Run configuration validation tests
 - **Back to Main Menu** - Return to main menu
 
 #### Features
@@ -48,6 +57,8 @@ The CK3 AI Weight Generator includes an interactive menu system (`menu.sh`) that
 - **Multiple editor support** (nano, vim, gedit, custom)
 - **Automatic environment setup**
 - **Comprehensive status reporting**
+- **Mod discovery and management**
+- **Descriptor.mod parsing**
 
 ### Quick Start
 
@@ -58,8 +69,9 @@ The CK3 AI Weight Generator includes an interactive menu system (`menu.sh`) that
 
 This script provides an interactive menu with:
 - Environment setup and dependency installation
-- Configuration management
+- Configuration management with mod support
 - Main program execution
+- CK3 mod discovery and management
 - Test suite execution
 - Helpful status information
 
@@ -90,7 +102,7 @@ If you prefer to set up manually:
 
 3. **Set up configuration** (optional):
    ```bash
-   python3 create_config.py
+   python3 setup_config.py
    ```
 
 4. **Run the program**:
@@ -98,11 +110,81 @@ If you prefer to set up manually:
    python3 main.py
    ```
 
+## CK3 Mod Folder Support
+
+The tool now supports working with CK3 mods from both Steam Workshop and Paradox mods directories.
+
+### Automatic Mod Discovery
+
+The tool can automatically discover CK3 mods in:
+- **Steam Workshop**: `~/.steam/steam/steamapps/workshop/content/1158310`
+- **Paradox Mods**: `~/.local/share/Paradox Interactive/Crusader Kings III/mod`
+
+### Setup from Mod Directory
+
+You can set up the tool to work with a specific mod:
+
+```bash
+# Interactive setup
+python3 setup_config.py
+
+# Setup from a specific mod directory
+python3 setup_config.py /path/to/mod
+```
+
+The tool will automatically:
+- Parse the mod's `descriptor.mod` file
+- Extract mod information (name, version, description)
+- Configure the tool to work with that mod
+- Set up appropriate paths and settings
+
+### Mod Manager
+
+Use the interactive mod manager to discover and configure mods:
+
+```bash
+python3 ck3_mod_manager.py
+```
+
+Features:
+- Browse all available CK3 mods
+- View mod details and structure
+- Generate configuration snippets
+- Interactive mod selection
+
+### Configuration Structure
+
+The new configuration system uses a unified `mod_config` section:
+
+```json
+{
+  "mod_config": {
+    "name": "Your Mod Name",
+    "version": "1.0.0",
+    "description": "Mod description",
+    "project_group": "default",
+    "author": "Mod Author",
+    "steam_workshop_path": "~/.steam/steam/steamapps/workshop/content/1158310",
+    "paradox_mod_path": "~/.local/share/Paradox Interactive/Crusader Kings III/mod",
+    "mod_folder_name": "your_mod_name",
+    "use_steam_workshop": true,
+    "use_paradox_mods": false,
+    "auto_detect_mods": true,
+    "backup_mod_files": true,
+    "mod_backup_suffix": ".ai_backup"
+  }
+}
+```
+
 ## Directory Structure
 
 ```
 CK3-AIs-Weight-Gen/
 ├── main.py                 # Main program entry point
+├── ck3_parser.py           # New unified parser (extensible)
+├── ck3_mod_manager.py      # Interactive mod discovery and management
+├── setup_config.py         # Enhanced configuration setup
+├── test_config.py          # Configuration system tests
 ├── config_manager.py       # Configuration management
 ├── ai_model_manager.py     # AI model management classes
 ├── event_parser.py         # CK3 event file parser
@@ -113,11 +195,10 @@ CK3-AIs-Weight-Gen/
 │   └── example_integer_weights.py # Integer weight function examples
 ├── requirements.txt        # Python dependencies
 ├── run.sh                  # Setup and run script
-├── menu.sh                 # Interactive menu system
+├── menu.sh                 # Enhanced interactive menu system
 ├── README.md              # This file
 ├── config.default.json     # Default configuration (version controlled)
 ├── config.json            # User configuration (ignored by git)
-├── create_config.py       # Configuration setup utility
 ├── docs/                  # Documentation files
 │   ├── README.md                      # Documentation index
 │   ├── CONDITION_IDENTIFIER_SYSTEM.md # Condition system documentation
@@ -152,6 +233,16 @@ This architecture provides:
 - **Maintainability**: Changes to traits automatically apply everywhere
 - **Development Speed**: Quick creation of new character models by combining traits
 - **Organization**: Clear separation of concerns and logical grouping
+
+### CK3 Mod Integration
+
+The system now includes comprehensive CK3 mod support:
+
+1. **Mod Discovery**: Automatically finds CK3 mods in Steam Workshop and Paradox directories
+2. **Descriptor Parsing**: Reads mod information from `descriptor.mod` files
+3. **Path Resolution**: Intelligently resolves target paths based on configuration
+4. **Backup Management**: Separate backup handling for mod files vs local files
+5. **Configuration Auto-Population**: Automatically fills configuration from mod metadata
 
 ### Trait System
 
@@ -252,15 +343,20 @@ To create your own configuration file:
 
 1. **Automatic method** (recommended):
    ```bash
-   python3 create_config.py
+   python3 setup_config.py
    ```
 
-2. **Manual method**:
+2. **Setup from mod directory**:
+   ```bash
+   python3 setup_config.py /path/to/mod
+   ```
+
+3. **Manual method**:
    ```bash
    cp config.default.json config.json
    ```
 
-3. **Edit the file** with your custom settings using any text editor.
+4. **Edit the file** with your custom settings using any text editor.
 
 ### Configuration Priority
 - If `config.json` exists, it will be used
@@ -271,6 +367,8 @@ To create your own configuration file:
 
 The configuration file contains:
 
+- **Mod Information**: Name, version, description, project group, author
+- **CK3 Paths**: Steam Workshop and Paradox mods directories
 - **Directories**: Paths to events and models directories
 - **File Extensions**: Which file types to process
 - **AI Markers**: Customizable markers for AI blocks
@@ -281,6 +379,21 @@ The configuration file contains:
 
 ```json
 {
+  "mod_config": {
+    "name": "My CK3 Mod",
+    "version": "1.0.0",
+    "description": "My custom CK3 mod",
+    "project_group": "default",
+    "author": "Mod Author",
+    "steam_workshop_path": "~/.steam/steam/steamapps/workshop/content/1158310",
+    "paradox_mod_path": "~/.local/share/Paradox Interactive/Crusader Kings III/mod",
+    "mod_folder_name": "my_mod",
+    "use_steam_workshop": true,
+    "use_paradox_mods": false,
+    "auto_detect_mods": true,
+    "backup_mod_files": true,
+    "mod_backup_suffix": ".ai_backup"
+  },
   "program_config": {
     "events_directory": "events",
     "models_directory": "models",
@@ -404,16 +517,18 @@ my_event.0001 = {
 
 ## How It Works
 
-1. **Trait Loading**: Loads all trait definitions from `models/Traits/`
-2. **Character Model Loading**: Loads character models from `models/Characters/`
-3. **Unified Model Building**: Automatically combines traits and character models
-4. **File Scanning**: Scans all `.txt` files in the configured events directory (local or mod folder)
-5. **AI Model Detection**: Looks for files with `# AI-MODEL-LIB` marker
-6. **Block Extraction**: Extracts AI blocks marked with `# AI-START` and `# AI-STOP`
-7. **Model Resolution**: Maps model names to unified AI models
-8. **Trigger Generation**: Converts unified AI models into CK3 trigger code
-9. **File Modification**: Replaces AI blocks with generated triggers
-10. **Validation**: Checks generated triggers and trait references
+1. **Configuration Setup**: Loads configuration and determines target paths
+2. **Mod Discovery**: If enabled, discovers available CK3 mods
+3. **Trait Loading**: Loads all trait definitions from `models/Traits/`
+4. **Character Model Loading**: Loads character models from `models/Characters/`
+5. **Unified Model Building**: Automatically combines traits and character models
+6. **File Scanning**: Scans all `.txt` files in the configured events directory (local or mod folder)
+7. **AI Model Detection**: Looks for files with `# AI-MODEL-LIB` marker
+8. **Block Extraction**: Extracts AI blocks marked with `# AI-START` and `# AI-STOP`
+9. **Model Resolution**: Maps model names to unified AI models
+10. **Trigger Generation**: Converts unified AI models into CK3 trigger code
+11. **File Modification**: Replaces AI blocks with generated triggers
+12. **Validation**: Checks generated triggers and trait references
 
 ## Generated Output
 
@@ -548,6 +663,38 @@ python model_organizer.py
 - **Templates**: Create templates for new traits and character models
 - **Summary**: Get overview of all models and traits
 
+### CK3 Mod Manager
+
+The `ck3_mod_manager.py` script provides interactive mod discovery and management:
+
+```bash
+python ck3_mod_manager.py
+```
+
+**Features:**
+- **Mod Discovery**: Find all available CK3 mods
+- **Mod Details**: View mod information and structure
+- **Configuration Snippets**: Generate configuration for specific mods
+- **Interactive Selection**: Browse and select mods
+
+### Configuration Setup
+
+The `setup_config.py` script provides enhanced configuration setup:
+
+```bash
+# Interactive setup
+python setup_config.py
+
+# Setup from mod directory
+python setup_config.py /path/to/mod
+```
+
+**Features:**
+- **Interactive Setup**: Guided configuration creation
+- **Mod Integration**: Automatic setup from descriptor.mod files
+- **Path Detection**: Auto-detect CK3 installation paths
+- **Configuration Testing**: Validate configuration settings
+
 ### Example Usage
 
 The `examples/example_usage.py` script demonstrates how to use the system:
@@ -654,6 +801,20 @@ python model_organizer.py
 - No missing trait definitions
 - Consistent trait naming
 
+### Configuration Validation
+
+The system includes configuration validation:
+
+```bash
+python test_config.py
+```
+
+**Validation checks:**
+- Configuration file loading
+- Descriptor.mod parsing
+- Path resolution
+- Mod discovery
+
 ### Trigger Validation
 
 Generated triggers are validated for common issues:
@@ -700,6 +861,29 @@ generator = CK3TriggerGenerator(config_manager)
 trigger = generator.generate_trigger_from_model(unified_model)
 ```
 
+### CK3 Parser Usage
+
+The new unified parser provides extensible file processing:
+
+```python
+from ck3_parser import CK3Parser
+
+# Initialize parser
+parser = CK3Parser("config.json")
+
+# Setup environment
+parser.setup_environment()
+
+# Parse all supported file types
+summary = parser.parse_all()
+
+# Apply changes
+parser.apply_changes(summary)
+
+# Print summary
+parser.print_summary(summary)
+```
+
 ### Weight Calculation
 
 The system automatically calculates weights based on:
@@ -727,6 +911,8 @@ The system generates CK3 conditions for:
 2. **"Character model not found"**: Check `models/Characters/` files
 3. **"Validation failed"**: Run `model_organizer.py` to identify issues
 4. **"Unknown model"**: Verify model names in event files match character model names
+5. **"Mod not found"**: Check CK3 installation paths in configuration
+6. **"Descriptor.mod parsing failed"**: Ensure mod directory contains valid descriptor.mod file
 
 ### Validation Errors
 
@@ -736,6 +922,7 @@ Common validation issues and solutions:
 - **Invalid conditions**: Check CK3 condition syntax (see [CK3 Syntax Analysis](docs/CK3_SYNTAX_ANALYSIS.md))
 - **Negative weights**: Review trait weight values
 - **Empty conditions**: Ensure all modifiers have conditions
+- **Path resolution issues**: Check target configuration settings
 
 ### Debugging
 
@@ -747,7 +934,7 @@ Enable detailed logging by modifying `config.json`:
     "output": {
       "validate_triggers": true,
       "show_summary": true,
-      "debug_mode": true
+      "verbose_logging": true
     }
   }
 }
@@ -775,12 +962,19 @@ For detailed information on specific systems:
 - **Memory Efficient**: Large trait sets handled efficiently
 - **Incremental Updates**: Only modified files are reprocessed
 
+### Mod Discovery
+
+- **Cached Discovery**: Mod information cached for faster subsequent runs
+- **Incremental Scanning**: Only scans for changes in mod directories
+- **Efficient Parsing**: Fast descriptor.mod parsing with regex optimization
+
 ### Optimization Tips
 
 1. **Group Related Traits**: Keep related traits in the same file
 2. **Reuse Traits**: Reference existing traits rather than creating duplicates
 3. **Validate Early**: Run validation before processing large event sets
 4. **Use Templates**: Leverage template system for consistent development
+5. **Configure Paths**: Set up proper CK3 paths for faster mod discovery
 
 ## Contributing
 
@@ -794,8 +988,10 @@ To add new features or fix bugs:
    - Ensure all trait references are valid
 4. **Test thoroughly**:
    - Run `model_organizer.py` for validation
+   - Run `test_config.py` for configuration validation
    - Test with example event files
    - Verify trigger generation
+   - Test with CK3 mods
 5. **Submit a pull request**
 
 ### Development Guidelines
@@ -804,7 +1000,8 @@ To add new features or fix bugs:
 - **Naming Conventions**: Use descriptive, consistent names
 - **Documentation**: Update documentation for new features
 - **Validation**: Ensure all changes pass validation
-- **Testing**: Test with various event file formats
+- **Testing**: Test with various event file formats and mod structures
+- **CK3 Compatibility**: Ensure generated triggers work with current CK3 versions
 
 ## License
 
@@ -831,15 +1028,28 @@ For issues or questions:
 
 1. **Check the troubleshooting section**
 2. **Review the example files**
-3. **Run validation tools**: `python model_organizer.py`
+3. **Run validation tools**: 
+   - `python model_organizer.py`
+   - `python test_config.py`
 4. **Check documentation**: 
    - [Model Organization](models/README.md)
    - [Condition System](docs/CONDITION_IDENTIFIER_SYSTEM.md)
    - [CK3 Syntax](docs/CK3_SYNTAX_ANALYSIS.md)
    - [Weight Calculator](docs/WEIGHT_CALCULATOR_README.md)
 5. **Ensure your CK3 event files follow the expected format**
+6. **Verify CK3 mod paths are correctly configured**
 
 ## Version History
+
+### v3.0 - CK3 Mod Folder Support
+- **New**: Full CK3 mod folder support (Steam Workshop & Paradox Mods)
+- **New**: Interactive mod discovery and management
+- **New**: Descriptor.mod parsing and auto-configuration
+- **New**: Enhanced menu system with mod support
+- **New**: Unified parser for future extensibility
+- **New**: Configuration testing and validation
+- **Improved**: Enhanced path resolution and target handling
+- **Improved**: Better mod integration and backup management
 
 ### v2.0 - Unified Trait-Based System
 - **New**: Trait-based architecture with organized model structure

@@ -318,9 +318,136 @@ historical_char_creation_events.1 = {
 
 		ai_chance = {
 			# AI-START
-			# using: {historical}
-
-			# AI-END
+			# AI-START		ai_chance = {
+		base = 380
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_learning_trigger = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_diplomacy_trigger = yes/no
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = historian
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_learning_trigger = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_scholar = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = scholar
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_learning_trigger = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_court_chaplain = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = diplomat
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_diplomacy_trigger = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_court_chancellor = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_trait = gregarious
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		has_education_diplomacy_trigger = yes
+		}
+		}
+		modifier = {
+		add = 10
+		trigger = {
+		is_court_chancellor = yes
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = zealous }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = shy }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = reckless }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = illiterate }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = ignorant }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = awkward }
+		}
+		}
+		modifier = {
+		add = -10
+		trigger = {
+		NOT = { has_trait = cynical }
+		}
+		}
+		}
+			# AI-END			# AI-END			# AI-END			# AI-END
 		}
 	}
 	

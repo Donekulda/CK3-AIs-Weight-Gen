@@ -20,7 +20,8 @@ show_welcome() {
     print_colored $BLUE "Key Features:"
     echo "  • Unified trait-based AI system"
     echo "  • Automatic event file processing"
-    echo "  • Mod folder support"
+    echo "  • CK3 mod folder support (Steam Workshop & Paradox Mods)"
+    echo "  • Mod discovery and management"
     echo "  • Configuration management"
     echo "  • Comprehensive testing"
     echo ""
@@ -51,13 +52,16 @@ show_menu() {
     print_colored $GREEN "Available options:"
     echo ""
     echo "  1) Run CK3 AI Weight Generator (main program)"
-    echo "  2) Run Test Suite"
-    echo "  3) Setup Environment Only (install dependencies)"
-    echo "  4) Configuration Management"
-    echo "  5) Show Configuration Status"
-    echo "  6) Exit"
+    echo "  2) Run CK3 Parser (new unified parser)"
+    echo "  3) CK3 Mod Manager (discover and manage mods)"
+    echo "  4) Setup Configuration (interactive setup)"
+    echo "  5) Run Test Suite"
+    echo "  6) Setup Environment Only (install dependencies)"
+    echo "  7) Configuration Management"
+    echo "  8) Show Configuration Status"
+    echo "  9) Exit"
     echo ""
-    print_colored $YELLOW "Please select an option (1-6): "
+    print_colored $YELLOW "Please select an option (1-9): "
 }
 
 # Function to setup environment
@@ -118,12 +122,14 @@ show_config_menu() {
     print_colored $GREEN "Available options:"
     echo ""
     echo "  1) Create User Configuration (from default)"
-    echo "  2) Show Current Configuration Status"
-    echo "  3) Edit Configuration File"
-    echo "  4) Reset to Default Configuration"
-    echo "  5) Back to Main Menu"
+    echo "  2) Setup from Mod Directory (parse descriptor.mod)"
+    echo "  3) Show Current Configuration Status"
+    echo "  4) Edit Configuration File"
+    echo "  5) Reset to Default Configuration"
+    echo "  6) Test Configuration System"
+    echo "  7) Back to Main Menu"
     echo ""
-    print_colored $YELLOW "Please select an option (1-5): "
+    print_colored $YELLOW "Please select an option (1-7): "
 }
 
 # Function to manage configuration
@@ -137,19 +143,25 @@ manage_configuration() {
                 create_user_config
                 ;;
             2)
-                show_config_status
+                setup_from_mod_directory
                 ;;
             3)
-                edit_config_file
+                show_config_status
                 ;;
             4)
-                reset_to_default_config
+                edit_config_file
                 ;;
             5)
+                reset_to_default_config
+                ;;
+            6)
+                test_configuration_system
+                ;;
+            7)
                 return
                 ;;
             *)
-                print_colored $RED "Invalid option. Please select 1-5."
+                print_colored $RED "Invalid option. Please select 1-7."
                 echo ""
                 print_colored $YELLOW "Press Enter to continue..."
                 read -r
@@ -163,14 +175,17 @@ create_user_config() {
     print_colored $BLUE "Creating User Configuration..."
     echo ""
     
-    # Check if create_config.py exists
-    if [ ! -f "create_config.py" ]; then
-        print_colored $RED "Error: create_config.py not found in current directory"
+    # Check if setup_config.py exists
+    if [ ! -f "setup_config.py" ]; then
+        print_colored $RED "Error: setup_config.py not found in current directory"
         return 1
     fi
 
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
     # Run the configuration creation script
-    if python3 create_config.py; then
+    if python3 setup_config.py; then
         print_colored $GREEN "✅ User configuration created successfully!"
         echo ""
         print_colored $YELLOW "Next steps:"
@@ -179,6 +194,81 @@ create_user_config() {
         echo "  3. Run the main program"
     else
         print_colored $RED "❌ Failed to create user configuration"
+    fi
+    
+    echo ""
+    print_colored $YELLOW "Press Enter to continue..."
+    read -r
+}
+
+# Function to setup from mod directory
+setup_from_mod_directory() {
+    print_colored $BLUE "Setup from Mod Directory"
+    print_colored $BLUE "======================="
+    echo ""
+    
+    print_colored $YELLOW "Enter the path to your CK3 mod directory:"
+    print_colored $YELLOW "(or press Enter to browse current directory)"
+    read -r mod_path
+    
+    if [ -z "$mod_path" ]; then
+        # Show available directories in current location
+        print_colored $BLUE "Available directories in current location:"
+        echo ""
+        for dir in */; do
+            if [ -d "$dir" ]; then
+                echo "  $dir"
+            fi
+        done
+        echo ""
+        print_colored $YELLOW "Enter mod directory name:"
+        read -r mod_path
+    fi
+    
+    if [ -d "$mod_path" ]; then
+        print_colored $GREEN "Setting up configuration from: $mod_path"
+        echo ""
+        
+        # Add src directory to Python path
+        export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+        
+        if python3 setup_config.py "$mod_path"; then
+            print_colored $GREEN "✅ Configuration updated from mod directory!"
+            echo ""
+            print_colored $YELLOW "Mod information has been loaded into config.json"
+        else
+            print_colored $RED "❌ Failed to setup from mod directory"
+        fi
+    else
+        print_colored $RED "❌ Directory not found: $mod_path"
+    fi
+    
+    echo ""
+    print_colored $YELLOW "Press Enter to continue..."
+    read -r
+}
+
+# Function to test configuration system
+test_configuration_system() {
+    print_colored $BLUE "Testing Configuration System"
+    print_colored $BLUE "==========================="
+    echo ""
+    
+    if [ ! -f "tests/test_config.py" ]; then
+        print_colored $RED "Error: test_config.py not found in tests directory"
+        return 1
+    fi
+    
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
+    print_colored $YELLOW "Running configuration system tests..."
+    echo ""
+    
+    if python3 tests/test_config.py; then
+        print_colored $GREEN "✅ All configuration tests passed!"
+    else
+        print_colored $RED "❌ Some configuration tests failed"
     fi
     
     echo ""
@@ -207,19 +297,26 @@ show_config_status() {
     
     echo ""
     
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
     # Show current configuration source using Python
-    if [ -f "config_manager.py" ]; then
+    if [ -f "src/config_manager.py" ]; then
         print_colored $BLUE "Current Configuration Source:"
         python3 -c "
-from config_manager import ConfigManager
+from src.config_manager import ConfigManager
 try:
     cm = ConfigManager()
+    mod_config = cm.get_mod_config()
     print(f'  📁 Using: {cm.get_current_config_source()}')
+    print(f'  🎮 Mod name: {mod_config.name}')
     print(f'  📂 Events directory: {cm.get_final_events_path()}')
     print(f'  🎯 Using mod folder: {cm.should_use_mod_folder()}')
     if cm.should_use_mod_folder():
         print(f'  📁 Mod folder: {cm.get_target_mod_folder()}')
         print(f'  ⬆️  Parent directory: {cm.is_parent_mod_folder()}')
+    print(f'  🔍 Steam Workshop: {cm.get_steam_workshop_path()}')
+    print(f'  📦 Paradox Mods: {cm.get_paradox_mod_path()}')
 except Exception as e:
     print(f'  ❌ Error reading configuration: {e}')
 "
@@ -353,7 +450,9 @@ run_main_program() {
 from config_manager import ConfigManager
 try:
     cm = ConfigManager()
+    mod_config = cm.get_mod_config()
     print(f'  📁 Source: {cm.get_current_config_source()}')
+    print(f'  🎮 Mod: {mod_config.name}')
     print(f'  📂 Events: {cm.get_final_events_path()}')
     if cm.should_use_mod_folder():
         print(f'  🎯 Mod folder: {cm.get_target_mod_folder()}')
@@ -363,6 +462,9 @@ except Exception as e:
         echo ""
     fi
 
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
     # Make main.py executable
     chmod +x main.py
 
@@ -371,6 +473,115 @@ except Exception as e:
     
     echo ""
     print_colored $GREEN "Main program execution completed."
+}
+
+# Function to run CK3 parser
+run_ck3_parser() {
+    print_colored $BLUE "Running CK3 Parser..."
+    echo ""
+    
+    # Check if ck3_parser.py exists
+    if [ ! -f "src/ck3_parser.py" ]; then
+        print_colored $RED "Error: ck3_parser.py not found in src directory"
+        return 1
+    fi
+
+    # Check configuration status
+    print_colored $YELLOW "Checking configuration..."
+    if [ ! -f "config.json" ]; then
+        print_colored $YELLOW "⚠️  No user configuration found. Using default configuration."
+    else
+        print_colored $GREEN "✅ User configuration found."
+    fi
+    
+    echo ""
+    
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
+    # Show current configuration source
+    if [ -f "src/config_manager.py" ]; then
+        print_colored $BLUE "Current Configuration:"
+        python3 -c "
+from src.config_manager import ConfigManager
+try:
+    cm = ConfigManager()
+    mod_config = cm.get_mod_config()
+    print(f'  📁 Source: {cm.get_current_config_source()}')
+    print(f'  🎮 Mod: {mod_config.name}')
+    print(f'  📂 Events: {cm.get_final_events_path()}')
+    if cm.should_use_mod_folder():
+        print(f'  🎯 Mod folder: {cm.get_target_mod_folder()}')
+except Exception as e:
+    print(f'  ❌ Error: {e}')
+"
+        echo ""
+    fi
+
+    # Make ck3_parser.py executable
+    chmod +x src/ck3_parser.py
+
+    # Run the CK3 parser
+    python3 src/ck3_parser.py
+    
+    echo ""
+    print_colored $GREEN "CK3 Parser execution completed."
+}
+
+# Function to run CK3 mod manager
+run_ck3_mod_manager() {
+    print_colored $BLUE "Running CK3 Mod Manager..."
+    echo ""
+    
+    # Check if ck3_mod_manager.py exists
+    if [ ! -f "src/ck3_mod_manager.py" ]; then
+        print_colored $RED "Error: ck3_mod_manager.py not found in src directory"
+        return 1
+    fi
+
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+    print_colored $YELLOW "This will scan for CK3 mods in Steam Workshop and Paradox mods directories."
+    print_colored $YELLOW "You can browse available mods and get configuration snippets."
+    echo ""
+
+    # Make ck3_mod_manager.py executable
+    chmod +x src/ck3_mod_manager.py
+
+    # Run the CK3 mod manager
+    python3 src/ck3_mod_manager.py
+    
+    echo ""
+    print_colored $GREEN "CK3 Mod Manager completed."
+}
+
+# Function to run setup configuration
+run_setup_configuration() {
+    print_colored $BLUE "Running Setup Configuration..."
+    echo ""
+    
+    # Check if setup_config.py exists
+    if [ ! -f "setup_config.py" ]; then
+        print_colored $RED "Error: setup_config.py not found in current directory"
+        return 1
+    fi
+
+    print_colored $YELLOW "This will help you set up your configuration interactively."
+    print_colored $YELLOW "You can also set up from a mod directory to auto-detect settings."
+    echo ""
+
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
+    # Make setup_config.py executable
+    chmod +x setup_config.py
+
+    # Run the setup configuration
+    python3 setup_config.py
+    
+    echo ""
+    print_colored $GREEN "Setup Configuration completed."
 }
 
 # Function to run tests
@@ -391,6 +602,9 @@ run_tests() {
         return 1
     fi
 
+    # Add src directory to Python path
+    export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+    
     # Run all test files
     total_tests=0
     passed_tests=0
@@ -441,29 +655,50 @@ while true; do
             ;;
         2)
             setup_environment
-            run_tests
+            run_ck3_parser
             echo ""
             print_colored $YELLOW "Press Enter to return to menu..."
             read -r
             ;;
         3)
             setup_environment
+            run_ck3_mod_manager
             echo ""
             print_colored $YELLOW "Press Enter to return to menu..."
             read -r
             ;;
         4)
-            manage_configuration
+            setup_environment
+            run_setup_configuration
+            echo ""
+            print_colored $YELLOW "Press Enter to return to menu..."
+            read -r
             ;;
         5)
-            show_config_status
+            setup_environment
+            run_tests
+            echo ""
+            print_colored $YELLOW "Press Enter to return to menu..."
+            read -r
             ;;
         6)
+            setup_environment
+            echo ""
+            print_colored $YELLOW "Press Enter to return to menu..."
+            read -r
+            ;;
+        7)
+            manage_configuration
+            ;;
+        8)
+            show_config_status
+            ;;
+        9)
             print_colored $GREEN "Goodbye!"
             exit 0
             ;;
         *)
-            print_colored $RED "Invalid option. Please select 1-6."
+            print_colored $RED "Invalid option. Please select 1-9."
             echo ""
             print_colored $YELLOW "Press Enter to continue..."
             read -r

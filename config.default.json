@@ -1,33 +1,51 @@
 {
-  "program_config": {
-    "events_directory": "events",
-    "models_directory": "models",
-    "models_file": "models/ai_models.json",
-    "file_extensions": [".txt"],
-    "ai_markers": {
-      "library_marker": "# AI-MODEL-LIB",
-      "start_marker": "# AI-START",
-      "end_marker": "# AI-END",
-      "model_pattern": "using:\\s*\\{([^}]+)\\}",
-      "comment_pattern": "#\\s*(.+)"
+    "mod_config": {
+        "name": "CK3 AI Weight Generator",
+        "version": "1.0.0",
+        "description": "AI weight generation tool for Crusader Kings 3 modding",
+        "project_group": "default",
+        "author": "CK3 Modder",
+        "steam_workshop_path": "~/.steam/steam/steamapps/workshop/content/1158310",
+        "paradox_mod_path": "~/.local/share/Paradox Interactive/Crusader Kings III/mod",
+        "game_install_path": "",
+        "mod_folder_name": "",
+        "use_steam_workshop": true,
+        "use_paradox_mods": false,
+        "auto_detect_mods": true,
+        "backup_mod_files": true,
+        "mod_backup_suffix": ".ai_backup"
     },
-    "processing": {
-      "preserve_comments": true,
-      "delete_markers": false,
-      "backup_files": true,
-      "backup_suffix": ".backup"
-    },
-    "output": {
-      "indent_level": 2,
-      "validate_triggers": true,
-      "show_summary": true,
-      "verbose_logging": false
-    },
-    "target": {
-      "events_directory": "events",
-      "mod_folder": "",
-      "should_use_mod_folder": false,
-      "is_parent": false
+    "program_config": {
+        "events_directory": "events",
+        "models_directory": "models",
+        "models_file": "models/ai_models.json",
+        "file_extensions": [
+            ".txt"
+        ],
+        "ai_markers": {
+            "library_marker": "# AI-MODEL-LIB",
+            "start_marker": "# AI-START",
+            "end_marker": "# AI-END",
+            "model_pattern": "using:\\s*\\{([^}]+)\\}",
+            "comment_pattern": "#\\s*(.+)"
+        },
+        "processing": {
+            "preserve_comments": true,
+            "delete_markers": false,
+            "backup_files": true,
+            "backup_suffix": ".backup"
+        },
+        "output": {
+            "indent_level": 2,
+            "validate_triggers": true,
+            "show_summary": true,
+            "verbose_logging": false
+        },
+        "target": {
+            "events_directory": "events",
+            "mod_folder": "",
+            "should_use_mod_folder": false,
+            "is_parent": false
+        }
     }
-  }
-} 
+}
