@@ -1,5 +1,7 @@
 # CK3 AI Weight Generator
 
+[![License: Custom](https://img.shields.io/badge/License-Custom-blue.svg)](LICENSE)
+
 A Python tool for automatically generating CK3 AI modifiers based on a unified trait-based AI model system. This tool processes CK3 event files and replaces AI model references with appropriate CK3 triggers that consider character traits, education, personality, and situational modifiers.
 
 ## Features
@@ -806,7 +808,22 @@ To add new features or fix bugs:
 
 ## License
 
-This project is open source. Feel free to modify and distribute as needed.
+This project is licensed under a custom license that allows free use and commercial purposes but prevents selling of the software.
+
+### License Terms
+
+- **Free Use**: Anyone can use the software without charge
+- **Commercial Use Allowed**: Can be used in commercial projects and businesses
+- **No Selling**: Explicitly prohibits selling the software itself
+- **Attribution Required**: Ensures proper credit to original authors
+- **Modification Allowed**: Users can modify and distribute the software
+- **License Control**: Donekulda maintains full control and ownership rights over this license and software
+
+### Contact
+
+For questions about this license, please contact Donekulda (mikulas.stnaek@protonmail.com).
+
+See the [LICENSE](LICENSE) file for complete license terms.
 
 ## Support
 
