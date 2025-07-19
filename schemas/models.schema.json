@@ -55,6 +55,20 @@
                                                 "type": "string",
                                                 "description": "Description of this modifier",
                                                 "maxLength": 200
+                                            },
+                                            "priority": {
+                                                "type": "integer",
+                                                "description": "Priority of this modifier (higher = applied first)",
+                                                "minimum": 1,
+                                                "maximum": 100,
+                                                "default": 50
+                                            },
+                                            "stack_multiplier": {
+                                                "type": "number",
+                                                "description": "Multiplier when stacking with other modifiers",
+                                                "minimum": 0.1,
+                                                "maximum": 10.0,
+                                                "default": 1.0
                                             }
                                         },
                                         "required": [
@@ -62,6 +76,30 @@
                                             "weight_adjustment"
                                         ],
                                         "additionalProperties": false
+                                    }
+                                },
+                                "compatibility": {
+                                    "type": "object",
+                                    "description": "Compatibility with other traits",
+                                    "properties": {
+                                        "synergies": {
+                                            "type": "array",
+                                            "description": "Traits that work well together",
+                                            "items": {
+                                                "type": "string",
+                                                "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+                                            },
+                                            "uniqueItems": true
+                                        },
+                                        "conflicts": {
+                                            "type": "array",
+                                            "description": "Traits that conflict",
+                                            "items": {
+                                                "type": "string",
+                                                "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+                                            },
+                                            "uniqueItems": true
+                                        }
                                     }
                                 }
                             },
@@ -89,6 +127,13 @@
                                     "education",
                                     "lifestyle",
                                     "genetic",
+                                    "health",
+                                    "physical",
+                                    "mental",
+                                    "fame",
+                                    "commander",
+                                    "childhood",
+                                    "stress",
                                     "temporary",
                                     "custom"
                                 ]
@@ -99,6 +144,34 @@
                             "type": "string",
                             "description": "Corresponding CK3 trait name if different",
                             "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+                        },
+                        "metadata": {
+                            "type": "object",
+                            "description": "Additional metadata for the trait",
+                            "properties": {
+                                "dlc_required": {
+                                    "type": "string",
+                                    "description": "DLC required for this trait",
+                                    "enum": [
+                                        "base_game",
+                                        "royal_court",
+                                        "fate_of_iberia",
+                                        "friends_and_foes",
+                                        "tours_and_tournaments",
+                                        "custom"
+                                    ]
+                                },
+                                "historical_context": {
+                                    "type": "string",
+                                    "description": "Historical context for this trait",
+                                    "maxLength": 500
+                                },
+                                "version_added": {
+                                    "type": "string",
+                                    "description": "Game version when trait was added",
+                                    "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+                                }
+                            }
                         }
                     },
                     "required": [
@@ -152,6 +225,15 @@
                                         "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
                                     },
                                     "uniqueItems": true
+                                },
+                                "required": {
+                                    "type": "array",
+                                    "description": "Traits that must be present",
+                                    "items": {
+                                        "type": "string",
+                                        "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+                                    },
+                                    "uniqueItems": true
                                 }
                             },
                             "required": [
@@ -197,6 +279,19 @@
                                         "minimum": 1,
                                         "maximum": 100,
                                         "default": 50
+                                    },
+                                    "conditions_group": {
+                                        "type": "string",
+                                        "description": "Group this condition belongs to",
+                                        "enum": [
+                                            "character",
+                                            "realm",
+                                            "religion",
+                                            "culture",
+                                            "war",
+                                            "dynasty",
+                                            "custom"
+                                        ]
                                     }
                                 },
                                 "required": [
@@ -221,6 +316,10 @@
                                     "succession",
                                     "war",
                                     "peace",
+                                    "religion",
+                                    "culture",
+                                    "marriage",
+                                    "education",
                                     "custom"
                                 ]
                             },
@@ -260,52 +359,59 @@
                                     },
                                     "uniqueItems": true
                                 },
-                                "character_conditions": {
+                                "government_type": {
                                     "type": "array",
-                                    "description": "Additional CK3 character conditions",
+                                    "description": "Valid government types",
                                     "items": {
                                         "type": "string",
-                                        "minLength": 1
-                                    }
+                                        "enum": [
+                                            "feudal",
+                                            "clan",
+                                            "tribal",
+                                            "republic",
+                                            "theocracy"
+                                        ]
+                                    },
+                                    "uniqueItems": true
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         },
                         "metadata": {
                             "type": "object",
-                            "description": "Additional metadata for this model",
+                            "description": "Additional metadata for the model",
                             "properties": {
+                                "dlc_required": {
+                                    "type": "string",
+                                    "description": "DLC required for this model",
+                                    "enum": [
+                                        "base_game",
+                                        "royal_court",
+                                        "fate_of_iberia",
+                                        "friends_and_foes",
+                                        "tours_and_tournaments",
+                                        "custom"
+                                    ]
+                                },
+                                "version_added": {
+                                    "type": "string",
+                                    "description": "Game version when model was added",
+                                    "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+                                },
                                 "author": {
                                     "type": "string",
                                     "description": "Author of this model",
                                     "maxLength": 100
                                 },
-                                "version": {
-                                    "type": "string",
-                                    "description": "Version of this model",
-                                    "pattern": "^\\d+\\.\\d+\\.\\d+$"
-                                },
-                                "created_date": {
-                                    "type": "string",
-                                    "description": "Creation date (ISO format)",
-                                    "format": "date"
-                                },
                                 "tags": {
                                     "type": "array",
-                                    "description": "Tags for categorizing this model",
+                                    "description": "Custom tags for categorization",
                                     "items": {
                                         "type": "string",
-                                        "maxLength": 50
+                                        "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
                                     },
                                     "uniqueItems": true
-                                },
-                                "notes": {
-                                    "type": "string",
-                                    "description": "Additional notes about this model",
-                                    "maxLength": 1000
                                 }
-                            },
-                            "additionalProperties": false
+                            }
                         }
                     },
                     "required": [

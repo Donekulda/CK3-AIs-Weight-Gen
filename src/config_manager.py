@@ -136,11 +136,19 @@ class ConfigManager:
         self.mod_config = ModConfig(
             name=mod_data.get('name', 'CK3 AI Weight Generator'),
             version=mod_data.get('version', '1.0.0'),
-            description=mod_data.get('description', 'AI weight generation tool for CK3 modding'),
+            description=mod_data.get(
+                'description', 'AI weight generation tool for CK3 modding'
+            ),
             project_group=mod_data.get('project_group', 'default'),
             author=mod_data.get('author', 'CK3 Modder'),
-            steam_workshop_path=mod_data.get('steam_workshop_path', '~/.steam/steam/steamapps/workshop/content/1158310'),
-            paradox_mod_path=mod_data.get('paradox_mod_path', '~/.local/share/Paradox Interactive/Crusader Kings III/mod'),
+            steam_workshop_path=mod_data.get(
+                'steam_workshop_path', 
+                '~/.steam/steam/steamapps/workshop/content/1158310'
+            ),
+            paradox_mod_path=mod_data.get(
+                'paradox_mod_path', 
+                '~/.local/share/Paradox Interactive/Crusader Kings III/mod'
+            ),
             game_install_path=mod_data.get('game_install_path', ''),
             mod_folder_name=mod_data.get('mod_folder_name', ''),
             use_steam_workshop=mod_data.get('use_steam_workshop', True),
@@ -156,10 +164,14 @@ class ConfigManager:
         
         ai_markers_data = prog_config.get('ai_markers', {})
         ai_markers = AIMarkers(
-            library_marker=ai_markers_data.get('library_marker', '# AI-MODEL-LIB'),
+            library_marker=ai_markers_data.get(
+                'library_marker', '# AI-MODEL-LIB'
+            ),
             start_marker=ai_markers_data.get('start_marker', '# AI-START'),
             end_marker=ai_markers_data.get('end_marker', '# AI-END'),
-            model_pattern=ai_markers_data.get('model_pattern', 'using:\\s*\\{([^}]+)\\}'),
+            model_pattern=ai_markers_data.get(
+                'model_pattern', 'using:\\s*\\{([^}]+)\\}'
+            ),
             comment_pattern=ai_markers_data.get('comment_pattern', '#\\s*(.+)')
         )
         
@@ -219,8 +231,6 @@ class ConfigManager:
         if self.program_config is None:
             raise RuntimeError("Program configuration not loaded")
         return self.program_config
-    
-
     
     def get_events_directory(self) -> Path:
         """
@@ -406,26 +416,6 @@ class ConfigManager:
         """
         config = self.get_program_config()
         return config.target.is_parent
-    
-    def get_final_events_path(self) -> Path:
-        """
-        Get the final events path based on configuration.
-        
-        Returns:
-            Path to the events directory considering mod folder settings
-        """
-        config = self.get_program_config()
-        
-        if config.target.should_use_mod_folder and config.target.mod_folder:
-            if config.target.is_parent:
-                # Mod folder is in parent directory
-                return Path("..") / config.target.mod_folder / config.target.events_directory
-            else:
-                # Mod folder is in current directory or absolute path
-                return Path(config.target.mod_folder) / config.target.events_directory
-        else:
-            # Use local events directory
-            return Path(config.target.events_directory)
     
     def has_user_config(self) -> bool:
         """
@@ -862,7 +852,6 @@ class ConfigManager:
             Path to the events directory considering all settings
         """
         target_path = self.get_final_target_path()
-        target_config = self.get_program_config().target
         
         # If target path is a mod directory, append events
         if target_path.exists() and target_path.is_dir():

@@ -1,224 +1,470 @@
 {
-  "traits": {
-    "ambitious": {
-      "description": "Character is driven by ambition and seeks power",
-      "weight": 50,
-      "ai_effects": {
-        "base_weight": 25,
-        "modifiers": [
-          {
-            "condition": "is_ruler = yes",
-            "weight_adjustment": 15
-          },
-          {
-            "condition": "has_claim = yes",
-            "weight_adjustment": 20
-          },
-          {
-            "condition": "is_heir = yes",
-            "weight_adjustment": 10
-          }
-        ]
-      },
-      "opposite_traits": ["content", "humble"]
+    "traits": {
+        "ambitious": {
+            "description": "Character is driven by ambition and seeks power",
+            "weight": 50,
+            "ai_effects": {
+                "base_weight": 25,
+                "modifiers": [
+                    {
+                        "condition": "is_ruler = yes",
+                        "weight_adjustment": 15
+                    },
+                    {
+                        "condition": "has_claim = yes",
+                        "weight_adjustment": 20
+                    },
+                    {
+                        "condition": "is_heir = yes",
+                        "weight_adjustment": 10
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "content",
+                "humble"
+            ]
+        },
+        "content": {
+            "description": "Character is satisfied with their current position",
+            "weight": -40,
+            "ai_effects": {
+                "base_weight": -20,
+                "modifiers": [
+                    {
+                        "condition": "is_ruler = yes",
+                        "weight_adjustment": -10
+                    },
+                    {
+                        "condition": "has_claim = yes",
+                        "weight_adjustment": -15
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "ambitious",
+                "greedy"
+            ]
+        },
+        "brave": {
+            "description": "Character is courageous and fearless",
+            "weight": 40,
+            "ai_effects": {
+                "base_weight": 20,
+                "modifiers": [
+                    {
+                        "condition": "is_commander = yes",
+                        "weight_adjustment": 15
+                    },
+                    {
+                        "condition": "at_war = yes",
+                        "weight_adjustment": 10
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "craven",
+                "paranoid"
+            ]
+        },
+        "craven": {
+            "description": "Character is fearful and avoids danger",
+            "weight": -50,
+            "ai_effects": {
+                "base_weight": -25,
+                "modifiers": [
+                    {
+                        "condition": "is_commander = yes",
+                        "weight_adjustment": -20
+                    },
+                    {
+                        "condition": "at_war = yes",
+                        "weight_adjustment": -15
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "brave",
+                "berserker"
+            ]
+        },
+        "greedy": {
+            "description": "Character is motivated by wealth and material gain",
+            "weight": 30,
+            "ai_effects": {
+                "base_weight": 15,
+                "modifiers": [
+                    {
+                        "condition": "has_gold < 100",
+                        "weight_adjustment": 10
+                    },
+                    {
+                        "condition": "is_merchant = yes",
+                        "weight_adjustment": 15
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "content",
+                "generous"
+            ]
+        },
+        "generous": {
+            "description": "Character is giving and charitable",
+            "weight": -20,
+            "ai_effects": {
+                "base_weight": -10,
+                "modifiers": [
+                    {
+                        "condition": "has_gold > 500",
+                        "weight_adjustment": -5
+                    },
+                    {
+                        "condition": "is_merchant = yes",
+                        "weight_adjustment": -10
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "greedy",
+                "stingy"
+            ]
+        },
+        "wrathful": {
+            "description": "Character is quick to anger and vengeful",
+            "weight": 30,
+            "ai_effects": {
+                "base_weight": 15,
+                "modifiers": [
+                    {
+                        "condition": "has_rival = yes",
+                        "weight_adjustment": 10
+                    },
+                    {
+                        "condition": "has_enemy = yes",
+                        "weight_adjustment": 15
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "calm",
+                "patient"
+            ]
+        },
+        "calm": {
+            "description": "Character is composed and level-headed",
+            "weight": -25,
+            "ai_effects": {
+                "base_weight": -15,
+                "modifiers": [
+                    {
+                        "condition": "has_rival = yes",
+                        "weight_adjustment": -10
+                    },
+                    {
+                        "condition": "at_war = yes",
+                        "weight_adjustment": -5
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "wrathful",
+                "berserker"
+            ]
+        },
+        "paranoid": {
+            "description": "Character is suspicious and distrustful",
+            "weight": 25,
+            "ai_effects": {
+                "base_weight": 15,
+                "modifiers": [
+                    {
+                        "condition": "has_spouse = yes",
+                        "weight_adjustment": 5
+                    },
+                    {
+                        "condition": "has_courtier = yes",
+                        "weight_adjustment": 10
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "trusting",
+                "gregarious"
+            ]
+        },
+        "trusting": {
+            "description": "Character is open and trusting of others",
+            "weight": -20,
+            "ai_effects": {
+                "base_weight": -10,
+                "modifiers": [
+                    {
+                        "condition": "has_spouse = yes",
+                        "weight_adjustment": -5
+                    },
+                    {
+                        "condition": "has_courtier = yes",
+                        "weight_adjustment": -10
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "paranoid",
+                "suspicious"
+            ]
+        },
+        "proud": {
+            "description": "Character is proud and values their status and reputation",
+            "weight": 35,
+            "ai_effects": {
+                "base_weight": 20,
+                "modifiers": [
+                    {
+                        "condition": "is_ruler = yes",
+                        "weight_adjustment": 10
+                    },
+                    {
+                        "condition": "has_prestige > 1000",
+                        "weight_adjustment": 15
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "humble",
+                "modest"
+            ]
+        },
+        "skeptical": {
+            "description": "Character questions authority and traditional beliefs",
+            "weight": 15,
+            "ai_effects": {
+                "base_weight": 10,
+                "modifiers": [
+                    {
+                        "condition": "has_education_learning_trigger = yes",
+                        "weight_adjustment": 15
+                    },
+                    {
+                        "condition": "is_court_chaplain = yes",
+                        "weight_adjustment": -10
+                    }
+                ]
+            },
+            "opposite_traits": [
+                "zealous",
+                "pious",
+                "faithful"
+            ]
+        }
     },
-    "content": {
-      "description": "Character is satisfied with their current position",
-      "weight": -40,
-      "ai_effects": {
-        "base_weight": -20,
-        "modifiers": [
-          {
-            "condition": "is_ruler = yes",
-            "weight_adjustment": -10
-          },
-          {
-            "condition": "has_claim = yes",
-            "weight_adjustment": -15
-          }
-        ]
-      },
-      "opposite_traits": ["ambitious", "greedy"]
-    },
-    "brave": {
-      "description": "Character is courageous and fearless",
-      "weight": 40,
-      "ai_effects": {
-        "base_weight": 20,
-        "modifiers": [
-          {
-            "condition": "is_commander = yes",
-            "weight_adjustment": 15
-          },
-          {
-            "condition": "at_war = yes",
-            "weight_adjustment": 10
-          }
-        ]
-      },
-      "opposite_traits": ["craven", "paranoid"]
-    },
-    "craven": {
-      "description": "Character is fearful and avoids danger",
-      "weight": -50,
-      "ai_effects": {
-        "base_weight": -25,
-        "modifiers": [
-          {
-            "condition": "is_commander = yes",
-            "weight_adjustment": -20
-          },
-          {
-            "condition": "at_war = yes",
-            "weight_adjustment": -15
-          }
-        ]
-      },
-      "opposite_traits": ["brave", "berserker"]
-    },
-    "greedy": {
-      "description": "Character is motivated by wealth and material gain",
-      "weight": 30,
-      "ai_effects": {
-        "base_weight": 15,
-        "modifiers": [
-          {
-            "condition": "has_gold < 100",
-            "weight_adjustment": 10
-          },
-          {
-            "condition": "is_merchant = yes",
-            "weight_adjustment": 15
-          }
-        ]
-      },
-      "opposite_traits": ["content", "generous"]
-    },
-    "generous": {
-      "description": "Character is giving and charitable",
-      "weight": -20,
-      "ai_effects": {
-        "base_weight": -10,
-        "modifiers": [
-          {
-            "condition": "has_gold > 500",
-            "weight_adjustment": -5
-          },
-          {
-            "condition": "is_merchant = yes",
-            "weight_adjustment": -10
-          }
-        ]
-      },
-      "opposite_traits": ["greedy", "stingy"]
-    },
-    "wrathful": {
-      "description": "Character is quick to anger and vengeful",
-      "weight": 30,
-      "ai_effects": {
-        "base_weight": 15,
-        "modifiers": [
-          {
-            "condition": "has_rival = yes",
-            "weight_adjustment": 10
-          },
-          {
-            "condition": "has_enemy = yes",
-            "weight_adjustment": 15
-          }
-        ]
-      },
-      "opposite_traits": ["calm", "patient"]
-    },
-    "calm": {
-      "description": "Character is composed and level-headed",
-      "weight": -25,
-      "ai_effects": {
-        "base_weight": -15,
-        "modifiers": [
-          {
-            "condition": "has_rival = yes",
-            "weight_adjustment": -10
-          },
-          {
-            "condition": "at_war = yes",
-            "weight_adjustment": -5
-          }
-        ]
-      },
-      "opposite_traits": ["wrathful", "berserker"]
-    },
-    "paranoid": {
-      "description": "Character is suspicious and distrustful",
-      "weight": 25,
-      "ai_effects": {
-        "base_weight": 15,
-        "modifiers": [
-          {
-            "condition": "has_spouse = yes",
-            "weight_adjustment": 5
-          },
-          {
-            "condition": "has_courtier = yes",
-            "weight_adjustment": 10
-          }
-        ]
-      },
-      "opposite_traits": ["trusting", "gregarious"]
-    },
-    "trusting": {
-      "description": "Character is open and trusting of others",
-      "weight": -20,
-      "ai_effects": {
-        "base_weight": -10,
-        "modifiers": [
-          {
-            "condition": "has_spouse = yes",
-            "weight_adjustment": -5
-          },
-          {
-            "condition": "has_courtier = yes",
-            "weight_adjustment": -10
-          }
-        ]
-      },
-      "opposite_traits": ["paranoid", "suspicious"]
-    },
-    "proud": {
-      "description": "Character is proud and values their status and reputation",
-      "weight": 35,
-      "ai_effects": {
-        "base_weight": 20,
-        "modifiers": [
-          {
-            "condition": "is_ruler = yes",
-            "weight_adjustment": 10
-          },
-          {
-            "condition": "has_prestige > 1000",
-            "weight_adjustment": 15
-          }
-        ]
-      },
-      "opposite_traits": ["humble", "modest"]
-    },
-    "skeptical": {
-      "description": "Character questions authority and traditional beliefs",
-      "weight": 15,
-      "ai_effects": {
-        "base_weight": 10,
-        "modifiers": [
-          {
-            "condition": "has_education_learning_trigger = yes",
-            "weight_adjustment": 15
-          },
-          {
-            "condition": "is_court_chaplain = yes",
-            "weight_adjustment": -10
-          }
-        ]
-      },
-      "opposite_traits": ["zealous", "pious", "faithful"]
-    }
-  }
-} 
+    "interactions": [
+        {
+            "trait_combination": [
+                "ambitious",
+                "greedy"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 15,
+            "description": "Ambitious and greedy characters are especially driven by material gain"
+        },
+        {
+            "trait_combination": [
+                "brave",
+                "wrathful"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 10,
+            "description": "Brave and wrathful characters are especially aggressive in combat"
+        },
+        {
+            "trait_combination": [
+                "patient",
+                "calm"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 8,
+            "description": "Patient and calm characters make more thoughtful decisions"
+        },
+        {
+            "trait_combination": [
+                "generous",
+                "just"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 12,
+            "description": "Generous and just characters are seen as ideal rulers by their subjects"
+        },
+        {
+            "trait_combination": [
+                "brave",
+                "honest"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 8,
+            "description": "Brave and honest characters inspire loyalty through direct leadership"
+        },
+        {
+            "trait_combination": [
+                "ambitious",
+                "diligent"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 10,
+            "description": "Ambitious and diligent characters work tirelessly toward their goals"
+        },
+        {
+            "trait_combination": [
+                "gregarious",
+                "generous"
+            ],
+            "interaction_type": "synergy",
+            "weight_modifier": 12,
+            "description": "Gregarious and generous characters excel at building social networks"
+        },
+        {
+            "trait_combination": [
+                "brave",
+                "craven"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -20,
+            "description": "Conflicting courage traits create internal conflict and indecision"
+        },
+        {
+            "trait_combination": [
+                "generous",
+                "greedy"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -15,
+            "description": "Opposing generosity traits create personality conflicts and inconsistent behavior"
+        },
+        {
+            "trait_combination": [
+                "trusting",
+                "paranoid"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -18,
+            "description": "Conflicting trust levels create decision-making difficulties and social problems"
+        },
+        {
+            "trait_combination": [
+                "honest",
+                "deceitful"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -16,
+            "description": "Contradictory honesty traits lead to unreliable and conflicted behavior"
+        },
+        {
+            "trait_combination": [
+                "patient",
+                "wrathful"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -14,
+            "description": "Opposing temperament traits create unpredictable emotional responses"
+        },
+        {
+            "trait_combination": [
+                "humble",
+                "arrogant"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -18,
+            "description": "Conflicting ego traits result in inconsistent social interactions"
+        },
+        {
+            "trait_combination": [
+                "diligent",
+                "lazy"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -20,
+            "description": "Opposite work ethics create severe productivity conflicts"
+        },
+        {
+            "trait_combination": [
+                "zealous",
+                "cynical"
+            ],
+            "interaction_type": "antagonism",
+            "weight_modifier": -22,
+            "description": "Religious faith conflicts with cynical worldview, causing spiritual turmoil"
+        },
+        {
+            "trait_combination": [
+                "gregarious",
+                "shy"
+            ],
+            "interaction_type": "conditional",
+            "weight_modifier": -10,
+            "description": "Social conflict affects diplomatic situations when at court",
+            "conditions": [
+                "is_at_court = yes"
+            ]
+        },
+        {
+            "trait_combination": [
+                "zealous",
+                "just"
+            ],
+            "interaction_type": "conditional",
+            "weight_modifier": 15,
+            "description": "Religious zealots with strong justice are especially effective with same-faith subjects",
+            "conditions": [
+                "faith = ROOT.faith"
+            ]
+        },
+        {
+            "trait_combination": [
+                "ambitious",
+                "ruthless"
+            ],
+            "interaction_type": "conditional",
+            "weight_modifier": 12,
+            "description": "Ruthless ambition is particularly effective during wartime",
+            "conditions": [
+                "is_at_war = yes"
+            ]
+        },
+        {
+            "trait_combination": [
+                "paranoid",
+                "spymaster"
+            ],
+            "interaction_type": "conditional",
+            "weight_modifier": 8,
+            "description": "Paranoid characters excel as spymasters when they have intrigue focus",
+            "conditions": [
+                "has_focus = intrigue_focus"
+            ]
+        },
+        {
+            "trait_combination": [
+                "brave",
+                "berserker"
+            ],
+            "interaction_type": "conditional",
+            "weight_modifier": 18,
+            "description": "Brave berserkers are exceptionally effective in personal combat",
+            "conditions": [
+                "is_in_battle = yes"
+            ]
+        },
+        {
+            "trait_combination": [
+                "content",
+                "just"
+            ],
+            "interaction_type": "conditional",
+            "weight_modifier": 10,
+            "description": "Content and just rulers are especially appreciated during peacetime",
+            "conditions": [
+                "is_at_war = no"
+            ]
+        }
+    ]
+}

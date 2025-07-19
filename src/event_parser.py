@@ -9,7 +9,7 @@ import re
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 
 class ParseState(Enum):
@@ -27,12 +27,12 @@ class AIBlock:
     model_name: str
     content: str
     file_path: Path
-    preserved_comments: tuple = None
-    original_lines: tuple = None
-    start_marker_line: str = None
-    end_marker_line: str = None
-    ai_block_start_line: int = None
-    ai_block_end_line: int = None
+    preserved_comments: Optional[tuple] = None
+    original_lines: Optional[tuple] = None
+    start_marker_line: Optional[str] = None
+    end_marker_line: Optional[str] = None
+    ai_block_start_line: Optional[int] = None
+    ai_block_end_line: Optional[int] = None
 
 
 @dataclass
@@ -122,9 +122,9 @@ class EventParser:
         state = ParseState.SEARCHING
         current_block_start = -1
         current_model_name = ""
-        current_content = []
-        preserved_comments = []
-        original_lines = []
+        current_content: List[str] = []
+        preserved_comments: List[str] = []
+        original_lines: List[int] = []
         ai_chance_start = -1
         start_marker_line = ""
         end_marker_line = ""
@@ -199,9 +199,11 @@ class EventParser:
                     original_lines.append(line_num)
                     
                     # Check if this is a comment line (but not a marker)
-                    if (self.comment_pattern.search(line) and 
-                        not self.ai_start_pattern.search(line) and 
-                        not self.ai_end_pattern.search(line)):
+                    if (
+                        self.comment_pattern.search(line)
+                        and not self.ai_start_pattern.search(line)
+                        and not self.ai_end_pattern.search(line)
+                    ):
                         preserved_comments.append(line.strip())
         
         return ai_blocks
@@ -269,22 +271,22 @@ class EventParser:
         if not events_dir.exists() or not events_dir.is_dir():
             raise FileNotFoundError(f"Events directory not found: {events_dir}")
         
-        parsed_events = []
-        
         # Get file extensions from config if available
         if self.config_manager:
             extensions = self.config_manager.get_file_extensions()
         else:
             extensions = [".txt"]
         
-        # Build glob pattern - use simple pattern for .txt files
-        for file_path in events_dir.glob("*.txt"):
-            try:
-                parsed_event = self.parse_event_file(file_path)
-                parsed_events.append(parsed_event)
-            except Exception as e:
-                print(f"Warning: Failed to parse {file_path}: {e}")
-                continue
+        # Build glob pattern for each extension
+        parsed_events = []
+        for ext in extensions:
+            for file_path in events_dir.glob(f"*{ext}"):
+                try:
+                    parsed_event = self.parse_event_file(file_path)
+                    parsed_events.append(parsed_event)
+                except Exception as e:
+                    print(f"Warning: Failed to parse {file_path}: {e}")
+                    continue
         
         return parsed_events
     
@@ -298,7 +300,7 @@ class EventParser:
         Returns:
             Dictionary mapping model names to their usage count
         """
-        summary = {}
+        summary: Dict[str, int] = {}
         
         for event in parsed_events:
             for block in event.ai_blocks:

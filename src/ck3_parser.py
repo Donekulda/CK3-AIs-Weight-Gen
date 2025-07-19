@@ -9,7 +9,6 @@ extensible for future CK3 file types.
 The parser supports both local development and CK3 mod folder integration.
 """
 
-import os
 import sys
 from dataclasses import dataclass
 from enum import Enum
@@ -75,12 +74,12 @@ class CK3Parser:
         
         # Initialize parsers
         self.event_parser = EventParser(self.config_manager)
-        self.ai_model_manager = None
-        self.trigger_generator = None
+        self.ai_model_manager: Optional[AIModelManager] = None
+        self.trigger_generator: Optional[CK3TriggerGenerator] = None
         
         # Processing state
-        self.target_mod_path = None
-        self.processing_results = []
+        self.target_mod_path: Optional[Path] = None
+        self.processing_results: List[ParseResult] = []
         
     def setup_environment(self) -> bool:
         """
@@ -256,10 +255,12 @@ class CK3Parser:
             
             triggers = {}
             for block in all_ai_blocks:
-                if self.ai_model_manager.model_exists(block.model_name):
-                    model = self.ai_model_manager.get_model(block.model_name)
-                    trigger = self.trigger_generator.generate_trigger_from_model(model)
-                    triggers[block] = trigger
+                if self.ai_model_manager and self.trigger_generator:
+                    if self.ai_model_manager.model_exists(block.model_name):
+                        model = self.ai_model_manager.get_model(block.model_name)
+                        if model:  # Add null check for model
+                            trigger = self.trigger_generator.generate_trigger_from_model(model)
+                            triggers[block] = trigger
             
             return ParseResult(
                 file_type=FileType.EVENTS,
@@ -421,10 +422,11 @@ class CK3Parser:
                 trigger = triggers[block]
                 
                 # Generate replacement code
-                replacement_code = self.trigger_generator.format_trigger_for_replacement(trigger)
-                
-                # Build replacement content
-                replacement_content = []
+                if self.trigger_generator:
+                    replacement_code = self.trigger_generator.format_trigger_for_replacement(trigger)
+                    
+                    # Build replacement content
+                    replacement_content = []
                 
                 # Add start marker if NOT deleting markers
                 if not self.config_manager.should_delete_markers() and block.start_marker_line:

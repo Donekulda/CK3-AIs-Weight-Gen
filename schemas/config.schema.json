@@ -27,6 +27,11 @@
                     "type": "string",
                     "description": "Path to directory for backup files",
                     "default": "backup"
+                },
+                "ck3_game": {
+                    "type": "string",
+                    "description": "Path to CK3 game installation (for validation)",
+                    "default": ""
                 }
             },
             "required": [
@@ -65,9 +70,10 @@
                 "encoding": {
                     "type": "string",
                     "description": "File encoding for reading/writing",
-                    "default": "utf-8",
+                    "default": "utf-8-sig",
                     "enum": [
                         "utf-8",
+                        "utf-8-sig",
                         "utf-16",
                         "latin-1",
                         "cp1252"
@@ -79,6 +85,11 @@
                     "default": 10,
                     "minimum": 1,
                     "maximum": 100
+                },
+                "parallel_processing": {
+                    "type": "boolean",
+                    "description": "Enable parallel processing of files",
+                    "default": true
                 }
             },
             "required": [
@@ -110,7 +121,7 @@
                     "type": "integer",
                     "description": "Minimum weight for AI models",
                     "default": 0,
-                    "minimum": 0,
+                    "minimum": -1000,
                     "maximum": 100
                 },
                 "weight_multiplier": {
@@ -126,6 +137,33 @@
                     "default": -25,
                     "minimum": -100,
                     "maximum": 0
+                },
+                "trait_stacking": {
+                    "type": "object",
+                    "description": "Configuration for trait stacking behavior",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "description": "Whether to allow trait effects to stack",
+                            "default": true
+                        },
+                        "max_stack": {
+                            "type": "integer",
+                            "description": "Maximum number of traits that can stack",
+                            "default": 3,
+                            "minimum": 1,
+                            "maximum": 10
+                        },
+                        "diminishing_returns": {
+                            "type": "boolean",
+                            "description": "Apply diminishing returns to stacked traits",
+                            "default": true
+                        }
+                    },
+                    "required": [
+                        "enabled"
+                    ],
+                    "additionalProperties": false
                 }
             },
             "required": [
@@ -170,6 +208,16 @@
                     "type": "boolean",
                     "description": "Validate generated CK3 syntax",
                     "default": true
+                },
+                "format_style": {
+                    "type": "string",
+                    "description": "Style of code formatting",
+                    "default": "paradox",
+                    "enum": [
+                        "paradox",
+                        "compact",
+                        "readable"
+                    ]
                 }
             },
             "required": [
@@ -218,6 +266,11 @@
                     "default": 5,
                     "minimum": 0,
                     "maximum": 20
+                },
+                "log_performance": {
+                    "type": "boolean",
+                    "description": "Log performance metrics",
+                    "default": false
                 }
             },
             "required": [
@@ -250,6 +303,11 @@
                     "description": "Check generated CK3 syntax",
                     "default": true
                 },
+                "validate_against_game_files": {
+                    "type": "boolean",
+                    "description": "Validate against actual CK3 game files",
+                    "default": false
+                },
                 "strict_mode": {
                     "type": "boolean",
                     "description": "Enable strict validation mode",
@@ -258,43 +316,44 @@
             },
             "required": [
                 "check_trait_references",
-                "check_model_references"
+                "check_model_references",
+                "check_weight_ranges",
+                "check_ck3_syntax"
             ],
             "additionalProperties": false
         },
-        "development": {
+        "performance": {
             "type": "object",
-            "description": "Development and testing configuration",
+            "description": "Performance optimization settings",
             "properties": {
-                "test_mode": {
+                "cache_enabled": {
                     "type": "boolean",
-                    "description": "Enable test mode for development",
-                    "default": false
+                    "description": "Enable caching of parsed files",
+                    "default": true
                 },
-                "debug_mode": {
-                    "type": "boolean",
-                    "description": "Enable debug mode",
-                    "default": false
+                "cache_size_mb": {
+                    "type": "integer",
+                    "description": "Maximum cache size in MB",
+                    "default": 100,
+                    "minimum": 10,
+                    "maximum": 1000
                 },
-                "verbose_output": {
+                "parallel_processing": {
                     "type": "boolean",
-                    "description": "Enable verbose output",
-                    "default": false
+                    "description": "Enable parallel processing",
+                    "default": true
                 },
-                "dry_run": {
-                    "type": "boolean",
-                    "description": "Perform dry run without modifying files",
-                    "default": false
-                },
-                "profile_performance": {
-                    "type": "boolean",
-                    "description": "Profile performance during execution",
-                    "default": false
+                "max_workers": {
+                    "type": "integer",
+                    "description": "Maximum number of parallel workers",
+                    "default": 4,
+                    "minimum": 1,
+                    "maximum": 16
                 }
             },
             "required": [
-                "test_mode",
-                "debug_mode"
+                "cache_enabled",
+                "parallel_processing"
             ],
             "additionalProperties": false
         }
@@ -304,7 +363,6 @@
         "processing",
         "ai_models",
         "ck3_syntax",
-        "logging",
         "validation"
     ],
     "additionalProperties": false

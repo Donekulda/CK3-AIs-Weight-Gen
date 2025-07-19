@@ -7,7 +7,7 @@ It provides functions to validate, list, and manage traits and character models.
 
 import json
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Any, Dict, List, Optional, Set
 
 from .ai_model_manager import AIModelManager, TraitManager
 
@@ -27,7 +27,7 @@ class ModelOrganizer:
         Returns:
             Dictionary with validation results
         """
-        results = {
+        results: Dict[str, Any] = {
             'missing_traits': [],
             'unused_traits': [],
             'valid_models': []
@@ -66,7 +66,7 @@ class ModelOrganizer:
         
         return results
     
-    def list_model_summary(self) -> Dict[str, any]:
+    def list_model_summary(self) -> Dict[str, Any]:
         """
         Generate a summary of all models and traits.
         
@@ -105,7 +105,7 @@ class ModelOrganizer:
     
     def _get_trait_categories(self) -> Dict[str, List[str]]:
         """Categorize traits based on their characteristics."""
-        categories = {
+        categories: Dict[str, List[str]] = {
             'personality': [],
             'education': [],
             'combat': [],
@@ -181,7 +181,7 @@ class ModelOrganizer:
         
         print(f"Documentation exported to {output_file}")
     
-    def create_trait_template(self, trait_name: str, output_file: str = None) -> str:
+    def create_trait_template(self, trait_name: str, output_file: Optional[str] = None) -> str:
         """
         Create a template for a new trait.
         
@@ -216,7 +216,7 @@ class ModelOrganizer:
         
         return json_template
     
-    def create_character_model_template(self, model_name: str, output_file: str = None) -> str:
+    def create_character_model_template(self, model_name: str, output_file: Optional[str] = None) -> str:
         """
         Create a template for a new character model.
         
